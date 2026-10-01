@@ -3,7 +3,7 @@ export async function onRequestGet(context) {
     ? context.params.path.join("/")
     : String(context.params.path || "");
 
-  if (!path || (!path.startsWith("assets/img/") && !path.startsWith("makantoassets/img/"))) {
+  if (!path || (!path.startsWith("assets/img/") && !path.startsWith("makantoassets/img/") && !path.startsWith("signageassets/img/"))) {
     return new Response("Not found", { status: 404 });
   }
 
