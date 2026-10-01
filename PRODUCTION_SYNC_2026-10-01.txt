@@ -1,0 +1,1 @@
+NGP production sync marker. This file contains no site functionality and exists only to trigger the configured Cloudflare Pages deployment.
