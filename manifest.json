@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "NGP Integrated Services Limited",
+  "short_name": "NGP Services",
+  "description": "NGP Integrated Services Limited — integrated professional services across Nigeria.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1428d4",
+  "icons": [
+    {
+      "src": "/media/assets/img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/media/assets/img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
