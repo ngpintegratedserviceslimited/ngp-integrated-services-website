@@ -14,6 +14,10 @@
 <meta name="twitter:description" content="Integrated professional solutions across engineering, ICT, security, infrastructure, logistics and consultancy.">
 <meta name="description" content="NGP Integrated Services Limited is a Nigerian engineering, ICT, smart security, infrastructure, logistics and consultancy company delivering integrated solutions across Nigeria.">
 <meta name="theme-color" content="#1428d4">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/media/assets/img/logo.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NGP Services">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="NGP Integrated Services Limited">
 <meta property="og:image" content="/media/assets/img/gal.jpg">
@@ -104,6 +108,20 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 }
 
 .ngp-media-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.ngp-media-card{display:block;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 6px 22px rgba(20,25,60,.06)}.ngp-media-card img{width:100%;height:180px;object-fit:cover}.ngp-media-card span{display:block;padding:10px 12px;font-size:12px;font-weight:800;color:var(--blue)}.ngp-video-strip{margin-top:30px;padding:25px;border-radius:20px;background:#f5f7fb;display:flex;justify-content:space-between;gap:25px;align-items:center}.ngp-video-strip p{color:var(--muted);margin-top:5px}.ngp-video-links{display:flex;flex-wrap:wrap;gap:10px}.ngp-video-links a{padding:10px 14px;border-radius:9px;background:#fff;border:1px solid var(--line);color:var(--blue);font-weight:800;font-size:13px}@media(max-width:900px){.ngp-media-grid{grid-template-columns:repeat(2,1fr)}.ngp-video-strip{flex-direction:column;align-items:flex-start}}@media(max-width:600px){.ngp-media-grid{grid-template-columns:1fr}.ngp-media-card img{height:220px}}
+
+#ngp-app{background:linear-gradient(135deg,#f2f5ff,#fff 60%,#edf7ef)}
+.ngp-app-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}
+.ngp-app-panel{padding:34px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.ngp-app-mark{width:82px;height:82px;object-fit:contain;border-radius:18px;background:#fff;padding:8px;border:1px solid var(--line);margin-bottom:18px}
+.ngp-app-actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 12px}
+.ngp-app-button{border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:10px;font:inherit;font-weight:800;background:var(--blue);color:#fff}
+.ngp-app-button.secondary{background:#edf0ff;color:var(--blue)}
+.ngp-app-note{font-size:14px;color:var(--muted);margin-top:12px}
+.ngp-app-steps{display:grid;gap:14px;margin-top:18px}
+.ngp-app-step{display:flex;gap:12px;align-items:flex-start;padding:15px;border-radius:14px;background:#f7f8fc}
+.ngp-app-step b{color:var(--blue)}
+@media(max-width:800px){.ngp-app-grid{grid-template-columns:1fr}.ngp-app-panel{padding:25px}}
+
 </style>
 <!-- Google Analytics -->
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});gtag('js',new Date());</script>
@@ -254,6 +272,31 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
  </div>
 </section>
 
+
+<section class="section" id="ngp-app">
+ <div class="container ngp-app-grid">
+  <div>
+   <div class="kicker">NGP ON YOUR PHONE</div>
+   <h2>Take NGP with you.</h2>
+   <p style="color:var(--muted);margin-top:18px;max-width:590px">Install the NGP Integrated Services website on your phone for convenient access to our services, company information and contact details. The installable web app works on supported Android and iPhone browsers.</p>
+   <div class="ngp-app-actions">
+    <button class="ngp-app-button" id="ngp-install-button" type="button">Install NGP App</button>
+    <a class="btn btn-outline" href="#contact">Contact NGP</a>
+   </div>
+   <p class="ngp-app-note" id="ngp-install-status" aria-live="polite">Use the install button where supported, or follow the instructions for your device.</p>
+  </div>
+  <div class="ngp-app-panel">
+   <img class="ngp-app-mark" src="/media/assets/img/logo.png" alt="NGP Integrated Services Limited logo" loading="lazy">
+   <h3>Install on your device</h3>
+   <div class="ngp-app-steps">
+    <div class="ngp-app-step"><b>Android</b><span>Open this website in Chrome and tap <strong>Install NGP App</strong>. If no prompt appears, open the browser menu and choose “Install app” or “Add to Home screen,” if available.</span></div>
+    <div class="ngp-app-step"><b>iPhone</b><span>Open this website in Safari, tap <strong>Share</strong>, then select <strong>Add to Home Screen</strong> and tap Add.</span></div>
+   </div>
+   <p class="ngp-app-note">This is an installable web app, not yet a separate App Store or Google Play download.</p>
+  </div>
+ </div>
+</section>
+
 <section class="cta">
  <div class="container cta-grid">
   <div><h2>Have a project or service need?</h2><p>Talk to NGP Integrated Services Limited and let us understand your requirements.</p></div>
@@ -288,6 +331,54 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 
 <a class="float-call" href="tel:+2349012532054" aria-label="Call NGP">☎</a>
 <a class="float-wa" href="https://wa.me/2348162371966" target="_blank" rel="noopener" aria-label="WhatsApp NGP">WA</a>
+
+<script>
+/* NGP PWA install and service worker registration */
+(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('/service-worker.js').catch(function(err){ console.warn('NGP offline support could not start:', err); }); });
+  }
+  var installButton = document.getElementById('ngp-install-button');
+  var status = document.getElementById('ngp-install-status');
+  if (!installButton || !status) return;
+  var deferredPrompt = null;
+  var ua = navigator.userAgent || '';
+  var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function standalone(){ return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }
+  if (standalone()) {
+    status.textContent = 'NGP is already installed on this device.';
+    installButton.textContent = 'NGP App Installed';
+    installButton.disabled = true;
+    installButton.style.opacity = '.7';
+  } else if (isIOS) {
+    status.textContent = 'On iPhone or iPad: open this page in Safari, tap Share, then “Add to Home Screen”.';
+    installButton.textContent = 'How to Install on iPhone';
+    installButton.addEventListener('click', function(){ status.textContent = 'In Safari, tap the Share icon, choose “Add to Home Screen”, then tap Add.'; });
+  } else {
+    window.addEventListener('beforeinstallprompt', function(event){
+      event.preventDefault();
+      deferredPrompt = event;
+      installButton.textContent = 'Install NGP App';
+      status.textContent = 'Ready to install NGP on this device.';
+    });
+    installButton.addEventListener('click', async function(){
+      if (!deferredPrompt) {
+        status.textContent = 'If supported, open your browser menu and choose “Install app” or “Add to Home screen”. Use a current browser over HTTPS.';
+        return;
+      }
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    });
+    window.addEventListener('appinstalled', function(){
+      status.textContent = 'NGP was installed successfully.';
+      installButton.textContent = 'NGP App Installed';
+      installButton.disabled = true;
+    });
+  }
+})();
+</script>
+
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <div id="cookie-banner" role="dialog" aria-label="Cookie preferences" style="position:fixed;left:16px;right:16px;bottom:16px;z-index:2000;background:#11162a;color:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 18px 50px rgba(0,0,0,.25);display:none"><div style="max-width:1100px;margin:auto;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><strong>Privacy &amp; cookies</strong><p style="margin:5px 0 0;color:#d7dbea;font-size:14px">We use essential technologies and may use analytics and advertising cookies to improve the website. See our <a href="/privacy-policy" style="text-decoration:underline;color:#fff">Privacy Policy</a>.</p></div><div style="display:flex;gap:8px"><button id="cookie-reject" type="button" style="padding:10px 14px;border:1px solid #697087;background:transparent;color:#fff;border-radius:8px">Reject optional</button><button id="cookie-accept" type="button" style="padding:10px 14px;border:0;background:#fff;color:#11162a;border-radius:8px;font-weight:700">Accept optional</button></div></div></div><script>
 (function(){
