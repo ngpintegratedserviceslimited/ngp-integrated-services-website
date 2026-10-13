@@ -1,0 +1,5 @@
+# Exclude repository metadata and temporary Wrangler build artifacts from public static assets.
+/.git/
+/.git/**
+/.wrangler/
+/.wrangler/**
