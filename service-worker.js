@@ -1,5 +1,5 @@
-const CACHE_NAME = "ngp-app-v1";
-const CORE_URLS = ["/", "/manifest.json"];
+const CACHE_NAME = "ngp-app-v2";
+const CORE_URLS = ["/", "/manifest.json", "/assets/img/logo.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
