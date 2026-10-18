@@ -1,4 +1,4 @@
-const CACHE_NAME = "ngp-app-v2";
+const CACHE_NAME = "ngp-app-v3";
 const CORE_URLS = ["/", "/manifest.json", "/assets/img/logo.png"];
 
 self.addEventListener("install", (event) => {
