@@ -95,7 +95,7 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 .float-wa{bottom:22px;background:#10a85a} .float-call{bottom:92px;background:var(--blue)}
 .mobile-menu{display:none}
 @media(max-width:900px){
- nav{display:none} .mobile-menu{display:block;background:none;border:0;font-size:28px}
+ nav{display:none} nav.mobile-open{display:flex;position:absolute;top:78px;left:4%;right:4%;flex-direction:column;align-items:stretch;gap:0;padding:10px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);max-height:calc(100vh - 100px);overflow:auto} nav.mobile-open a{padding:12px 14px;border-radius:8px} nav.mobile-open a:hover{background:var(--light)} .mobile-menu{display:block;background:none;border:0;font-size:28px;cursor:pointer;padding:8px}
  .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr} .hero{min-height:auto} .hero-art{min-height:330px}
  .services-grid{grid-template-columns:1fr 1fr} .detail-list{grid-template-columns:1fr} .why-grid{grid-template-columns:1fr 1fr}
  .stats-grid{grid-template-columns:1fr 1fr} .stat:nth-child(2){border-right:0}
@@ -140,8 +140,8 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
       <img src="/assets/img/logo.png" alt="NGP Integrated Services Limited logo">
       <span><b>NGP </b><strong>Integrated Services Limited.</strong></span>
     </a>
-    <nav><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/projects">Projects</a><a href="/training">Training</a><a href="/partnership">Partnership</a><a href="#media">Media</a><a class="nav-cta" href="/contact">Contact</a></nav>
-    <button class="mobile-menu" aria-label="Menu" onclick="document.querySelector('nav').style.display=document.querySelector('nav').style.display==='flex'?'none':'flex'">☰</button>
+    <nav id="primary-navigation" aria-label="Main navigation"><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/projects">Projects</a><a href="/training">Training</a><a href="/partnership">Partnership</a><a href="#media">Media</a><a href="#ngp-app">Download Our App</a><a class="nav-cta" href="/contact">Contact</a></nav>
+    <button class="mobile-menu" type="button" aria-label="Toggle main menu" aria-controls="primary-navigation" aria-expanded="false" onclick="var n=document.getElementById('primary-navigation');var open=n.classList.toggle('mobile-open');this.setAttribute('aria-expanded',String(open))">☰</button>
   </div>
 </header>
 
@@ -155,6 +155,7 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
       <div class="actions">
         <a class="btn btn-primary" href="#services">Explore Our Services</a>
         <a class="btn btn-outline" href="https://wa.me/2348162371966" target="_blank" rel="noopener">Chat with NGP</a>
+        <a class="btn btn-outline" href="#ngp-app">Download Our App</a>
       </div>
     </div>
     <div class="hero-art"><div class="hero-logo"><img src="/assets/img/logo.png" alt="Official NGP Integrated Services Limited logo" fetchpriority="high" decoding="async"></div></div>
@@ -277,9 +278,9 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 <section class="section" id="ngp-app">
  <div class="container ngp-app-grid">
   <div>
-   <div class="kicker">NGP ON YOUR PHONE</div>
-   <h2>Take NGP with you.</h2>
-   <p style="color:var(--muted);margin-top:18px;max-width:590px">Install the NGP Integrated Services website on your phone for convenient access to our services, company information and contact details. The installable web app works on supported Android and iPhone browsers.</p>
+   <div class="kicker">INSTALL NGP ON YOUR PHONE</div>
+   <h2>Download Our App</h2>
+   <p style="color:var(--muted);margin-top:18px;max-width:590px">Add the official NGP website to your phone for quick access to our services, company information and contact details. On supported browsers, you can install it as a web app without visiting an app store.</p>
    <div class="ngp-app-actions">
     <button class="ngp-app-button" id="ngp-install-button" type="button">Install NGP App</button>
     <a class="btn btn-outline" href="#contact">Contact NGP</a>
@@ -293,7 +294,7 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
     <div class="ngp-app-step"><b>Android</b><span>Open this website in Chrome and tap <strong>Install NGP App</strong>. If no prompt appears, open the browser menu and choose “Install app” or “Add to Home screen,” if available.</span></div>
     <div class="ngp-app-step"><b>iPhone</b><span>Open this website in Safari, tap <strong>Share</strong>, then select <strong>Add to Home Screen</strong> and tap Add.</span></div>
    </div>
-   <p class="ngp-app-note">This is an installable web app, not yet a separate App Store or Google Play download.</p>
+   <p class="ngp-app-note">Important: this is the installable NGP website, not a separate application listed on Google Play or Apple’s App Store.</p>
   </div>
  </div>
 </section>
