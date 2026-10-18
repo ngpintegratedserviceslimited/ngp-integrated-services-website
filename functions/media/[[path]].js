@@ -8,8 +8,18 @@ export async function onRequestGet(context) {
   }
 
   const upstream = "https://ngpintegratedservices.infy.uk/" + path;
+  // Cache remote legacy media at Cloudflare's edge so repeat visits do not
+  // have to wait for the former hosting provider on every request.
   const response = await fetch(upstream, {
-    headers: { "User-Agent": "NGP-Integrated-Services-Media-Proxy/1.0" }
+    headers: { "User-Agent": "NGP-Integrated-Services-Media-Proxy/1.0" },
+    cf: {
+      cacheEverything: true,
+      cacheTtlByStatus: {
+        "200-299": 604800,
+        "404": 60,
+        "500-599": 0
+      }
+    }
   });
 
   if (!response.ok) {
