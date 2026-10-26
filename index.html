@@ -123,6 +123,17 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 .ngp-app-step b{color:var(--blue)}
 @media(max-width:800px){.ngp-app-grid{grid-template-columns:1fr}.ngp-app-panel{padding:25px}}
 
+
+.knowledge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+.knowledge-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:24px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 8px 26px rgba(20,25,60,.05);transition:transform .2s,box-shadow .2s}
+.knowledge-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.knowledge-card h3{font-size:20px;line-height:1.3}
+.knowledge-card p{color:var(--muted);font-size:15px}
+.knowledge-label{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--blue)}
+.knowledge-read{font-weight:800;color:var(--blue);margin-top:auto}
+.knowledge-note{font-size:13px;color:var(--muted);margin-top:18px}
+@media(max-width:800px){.knowledge-grid{grid-template-columns:1fr}}
+
 </style>
 <!-- Google Analytics -->
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});gtag('js',new Date());</script>
@@ -140,7 +151,7 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
       <img src="/assets/img/logo.png" alt="NGP Integrated Services Limited logo">
       <span><b>NGP </b><strong>Integrated Services Limited.</strong></span>
     </a>
-    <nav id="primary-navigation" aria-label="Main navigation"><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/projects">Projects</a><a href="/training">Training</a><a href="/partnership">Partnership</a><a href="#media">Media</a><a href="#ngp-app">Download Our App</a><a class="nav-cta" href="/contact">Contact</a></nav>
+    <nav id="primary-navigation" aria-label="Main navigation"><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/projects">Projects</a><a href="/training">Training</a><a href="/partnership">Partnership</a><a href="/knowledge-centre">Knowledge Centre</a><a href="#media">Media</a><a href="#ngp-app">Download Our App</a><a class="nav-cta" href="/contact">Contact</a></nav>
     <button class="mobile-menu" type="button" aria-label="Toggle main menu" aria-controls="primary-navigation" aria-expanded="false" onclick="var n=document.getElementById('primary-navigation');var open=n.classList.toggle('mobile-open');this.setAttribute('aria-expanded',String(open))">☰</button>
   </div>
 </header>
@@ -251,6 +262,30 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
  </div>
 </section>
 
+
+<section class="section" id="knowledge-centre">
+ <div class="container">
+  <div class="section-head">
+   <div><div class="kicker">NGP KNOWLEDGE CENTRE</div><h2>Practical guides for better decisions</h2></div>
+   <p>Clear, practical information to help businesses and property owners plan security, technology and maintenance work.</p>
+  </div>
+  <div class="knowledge-grid">
+   <a class="knowledge-card" href="/knowledge-centre/automated-gate-selection">
+    <span class="knowledge-label">SMART SECURITY</span><h3>How to Choose an Automated Gate System</h3>
+    <p>Compare gate types, usage, safety features, power backup and maintenance before choosing equipment.</p><span class="knowledge-read">Read the guide →</span>
+   </a>
+   <a class="knowledge-card" href="/knowledge-centre/cctv-planning-maintenance">
+    <span class="knowledge-label">CCTV &amp; ACCESS</span><h3>Planning a CCTV System That Works</h3>
+    <p>Plan camera coverage, lighting, storage, secure access and a realistic maintenance routine.</p><span class="knowledge-read">Read the guide →</span>
+   </a>
+   <a class="knowledge-card" href="/knowledge-centre/ict-maintenance-checklist">
+    <span class="knowledge-label">ICT &amp; DIGITAL</span><h3>A Practical ICT Maintenance Checklist</h3>
+    <p>Organise updates, backups, user access, network checks and records for a more dependable workplace.</p><span class="knowledge-read">Read the guide →</span>
+   </a>
+  </div>
+  <p class="knowledge-note">These guides provide general information. Site-specific designs and repairs should be assessed by a suitably qualified professional.</p>
+ </div>
+</section>
 <section class="section" id="media">
  <div class="container">
   <div class="section-head"><div><div class="kicker">OUR WORK</div><h2>NGP at work</h2></div><p>Photos and videos from our installations, field work and print production across Nigeria.</p></div>
@@ -327,8 +362,8 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 <footer>
  <div class="container">
   <div class="foot-grid">
-   <div><a class="brand" href="#home"><img src="/assets/img/logo.png" alt="NGP logo"><span><b>NGP </b><strong>Integrated Services Limited.</strong></span></a><p>Integrated professional solutions for businesses, institutions, projects and clients.</p></div>
-   <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/projects">Projects</a><a href="/contact">Contact</a></div>
+   <div><a class="brand" href="/"><img src="/assets/img/logo.png" alt="NGP logo"><span><b>NGP </b><strong>Integrated Services Limited.</strong></span></a><p>Integrated professional solutions for businesses, institutions, projects and clients.</p></div>
+   <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/projects">Projects</a><a href="/knowledge-centre">Knowledge Centre</a><a href="/contact">Contact</a></div>
    <div><h4>Contact</h4><a href="tel:+2349012532054">0901 253 2054</a><a href="tel:+2348162371966">0816 237 1966</a><a href="https://ngpintegratedservices.com" target="_blank" rel="noopener">ngpintegratedservices.com</a><a href="mailto:ngpintegratedserviceslimited@gmail.com">ngpintegratedserviceslimited@gmail.com</a></div>
   </div>
   <div class="copy">© <span id="year"></span> NGP Integrated Services Limited. All rights reserved. · RC: 7738832 · <a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms</a> · <a href="/contact">Contact</a></div>
