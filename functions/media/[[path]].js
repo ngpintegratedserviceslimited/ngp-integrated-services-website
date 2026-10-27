@@ -7,7 +7,7 @@ export async function onRequestGet(context) {
     return new Response("Not found", { status: 404 });
   }
 
-  const upstream = "https://ngpintegratedservices.infy.uk/" + path;
+  const upstream = "https://ngpintegratedservices.infy.uk/media/" + path;
   // Cache remote legacy media at Cloudflare's edge so repeat visits do not
   // have to wait for the former hosting provider on every request.
   const response = await fetch(upstream, {
