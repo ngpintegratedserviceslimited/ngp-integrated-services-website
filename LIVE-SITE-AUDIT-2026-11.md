@@ -55,3 +55,6 @@ A direct request to the old InfinityFree image origin returned HTTP 200 only whe
 
 ## Release posture
 The live site is **not technically release-verified**. The media failure is a critical visitor-facing defect. The repository changes and the live site must be treated as separate states until the deployed SHA and post-deployment tests match.
+
+## Repository quality-gate findings
+The first GitHub Actions run identified four legacy consent labels in duplicate HTML pages and three short metadata descriptions. Those findings were corrected in subsequent commits. The static audit is retained as a regression gate; the outstanding /media/ references are intentionally warnings until the underlying files are migrated and verified. The alternate infy.uk website link remains a separate corporate reference and is not treated as a media-origin dependency.
