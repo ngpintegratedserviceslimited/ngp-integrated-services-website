@@ -39,7 +39,7 @@ The public production domain was checked with fresh live fetches, not repository
 The official logo at /assets/img/logo.png returned HTTP 200.
 
 ## Privacy and consent deployment mismatch
-The live Privacy Policy still contains the older brief policy text and loads the AdSense script. The merged repository version contains the expanded privacy notice and removes the AdSense loader from the legal page. The live page must be updated and re-tested before the privacy work can be considered complete.
+The live Privacy Policy and Terms pages still contain the older consent wording (“Essential only”) and both load the AdSense script. The repository versions use “Reject optional”; the updated Privacy Policy is expanded and the AdSense loader is removed from both legal pages. Both live pages must be updated and re-tested before the privacy work can be considered complete.
 
 ## Legacy media origin
 A direct request to the old InfinityFree image origin returned HTTP 200 only when TLS certificate verification was bypassed. This is not sufficient to certify the origin as a reliable production media source. The production /media/ paths returned 404 in the checks above. The old host should not remain a long-term dependency.
@@ -61,3 +61,5 @@ The first GitHub Actions run identified four legacy consent labels in duplicate 
 
 ## Latest repository static gate
 The latest GitHub Actions static audit on the quality branch passed with 0 errors and 1 warning. It scanned 30 HTML files, validated 24 sitemap URLs, found the expected ads.txt publisher row and 56 occurrences of the correct GA4 ID, and reported zero broken local source references. The single warning is the 111 remaining /media/ proxy references, which cannot be cleared until the underlying assets are migrated and verified.
+
+The live homepage, Privacy Policy and Terms pages all expose the expected GA4 ID G-190BLHG93V and AdSense publisher pub-2745538383126037; the superseded GA4 and publisher IDs were not found in these sampled live pages. The live Privacy Policy and Terms pages still load the AdSense script, which is not the intended repository configuration.
