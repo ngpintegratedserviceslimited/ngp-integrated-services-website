@@ -95,7 +95,7 @@ for (const file of htmlFiles) {
     gaOccurrences++;
     if (id !== GA_ID) fail(`Unexpected GA measurement ID ${id} in ${rel}`);
   }
-  if (html.includes("ngpintegratedservices.infy.uk")) legacyHostReferences++;
+  if (/https?:\/\/(?:www\.)?ngpintegratedservices\.infy\.uk\/media\//i.test(html)) legacyHostReferences++;
   mediaReferences += (html.match(/(?:src|href|url\([^)]*)=["']?\/media\//g) || []).length;
 
   const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim();
@@ -147,7 +147,7 @@ for (const file of htmlFiles) {
   }
 }
 if (!gaOccurrences) warn("No GA4 measurement ID found in HTML; confirm whether analytics is intentionally disabled.");
-if (legacyHostReferences) warn(`Legacy host name appears in ${legacyHostReferences} HTML file(s); investigate and remove after verified media migration.`);
+if (legacyHostReferences) warn(`Legacy media-origin URL appears in ${legacyHostReferences} HTML file(s); investigate and remove after verified media migration.`);
 if (mediaReferences) warn(`${mediaReferences} HTML media reference(s) still use the /media/ proxy; migrate and verify originals before retiring the legacy origin.`);
 report.push(`HTML files scanned: ${htmlFiles.length}`);
 report.push(`GA4 ID occurrences: ${gaOccurrences} (expected ID: ${GA_ID})`);
