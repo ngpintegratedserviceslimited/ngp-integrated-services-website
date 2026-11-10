@@ -9,7 +9,7 @@ The website is a corporate trust, service-discovery and enquiry platform. A succ
 ## Verified repository baseline
 - The November content and consent repair was merged in PR #11 at merge commit `a90f5f54d95fcedbb3a8298b750faa0033ebc2d6`.
 - The repository is a static Cloudflare Pages site with HTML pages, shared CSS, a `_redirects` file and a Pages Function for legacy media.
-- Sitemap currently contains 21 canonical HTTPS URLs on `ngpintegratedservices.com`.
+- Sitemap currently contains 24 canonical HTTPS URLs on `ngpintegratedservices.com`, including six Knowledge Centre guides.
 - Confirmed GA4 measurement ID: `G-190BLHG93V`.
 - Confirmed AdSense publisher row: `google.com, pub-2745538383126037, DIRECT, f08c47fec0942fa0`.
 - The sitemap's route structure includes root HTML pages, directory-based service/article pages and profile content. Cloudflare Pages route mapping must be preserved.
@@ -27,7 +27,7 @@ The repository is not proof of what Cloudflare currently serves. The live domain
 The site uses a custom consent banner and Google Consent Mode defaults. Repository inspection alone cannot verify actual browser storage, network requests, regional rules, or Google-certified CMP status. Test fresh sessions for accept, reject, persistence, and withdrawal; confirm GA4 and advertising tags do not fire in a way inconsistent with the applicable consent configuration. Confirm any Google account-side CMP requirement before monetisation.
 
 ### P1 — Page and content architecture
-The site has a 21-URL sitemap, but the content system is a collection of static pages rather than a managed publishing system. Establish a controlled page register, content owner, last-reviewed date, evidence source and next review date. Separate:
+The site has a 24-URL sitemap, but the content system is a collection of static pages rather than a managed publishing system. Establish a controlled page register, content owner, last-reviewed date, evidence source and next review date. Separate:
 - corporate facts and legal identity;
 - services and deliverables;
 - sector/use-case pages;
@@ -70,3 +70,6 @@ GitHub Actions runs this gate on pushes to the main and quality/content branches
 
 ## Current release posture
 **Not certified production-ready by this repository audit.** The repository contains useful content and correct known identifiers, but live deployment, media migration, consent behaviour, analytics reception and account-side diagnostics remain outstanding.
+
+## Content expansion — 10 November 2026
+Three additional Knowledge Centre guides were added for VSAT/satellite site readiness, solar backup planning for security and ICT equipment, and printing/signage project planning. The Knowledge Centre now links to six practical guides. The new routes are included in the sitemap and Cloudflare Pages redirects.
