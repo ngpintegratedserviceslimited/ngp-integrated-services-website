@@ -1,18 +1,73 @@
 # NGP Media Asset Migration Inventory
-**Generated:** 10 November 2026  
-**Repository branch:** quality/website-audit-gates-2026-11
+**Updated:** 10 November 2026  
+**Repository branch:** `quality/website-audit-gates-2026-11`
 
 ## Inventory summary
-- **49 unique media paths**
-- **118 references** found across HTML, JavaScript and CSS
-- The static HTML quality gate separately reports **111 direct /media/ references**
-- 18 homepage-referenced image URLs were individually tested against production and returned HTTP 404.
-- The official logo at /assets/img/logo.png returned HTTP 200.
-- The remaining 31 unique media paths have not yet all been individually tested.
+- **49 unique media paths** and **118 references** were found across repository HTML, JavaScript and CSS.
+- The static HTML quality gate separately reports **111 direct `/media/` references**.
+- The production audit tested 18 homepage-referenced media URLs; all 18 returned HTTP 404. The official logo at `/assets/img/logo.png` returned HTTP 200.
+- The company has now supplied two restoration archives in ChatGPT. The larger archive, `ngp-site-assets-restoration.zip`, contains **29 recovered originals: 24 JPEG images and 5 MP4 videos**, preserving the repository's expected directory structure.
+- The recovered archive was extracted and validated locally. All 24 JPEGs passed image decoding; all 5 MP4s exposed valid H.264 video streams via ffprobe. No files were renamed.
+- **17 assets remain missing** from the supplied archive and are listed below. No substitute images have been invented.
+- **Important:** archive validation is not deployment. These 29 assets have not yet been committed to GitHub or uploaded to Cloudflare, and no production URL has been verified as repaired.
 
-The same media asset is often reused on multiple pages. Preserve the existing file names and paths during migration where possible, or update every reference consistently.
+## Recovered original assets
 
-## Asset register
+| Repository-relative path | Type | Validation |
+|---|---|---|
+| `media/assets/img/Rovers.jpg` | JPEG 1080×810 | Decodes |
+| `media/assets/img/bakes.jpeg` | JPEG 739×415 | Decodes |
+| `media/assets/img/bim1.jpg` | JPEG 720×536 | Decodes |
+| `media/assets/img/bim2.jpg` | JPEG 1080×810 | Decodes |
+| `media/assets/img/bim3.jpg` | JPEG 653×1080 | Decodes |
+| `media/assets/img/bv2.mp4` | H.264 MP4 358×640, 30.03s | Video stream validated |
+| `media/assets/img/bv3.mp4` | H.264 MP4 360×640, 22.08s | Video stream validated |
+| `media/assets/img/bv5.mp4` | H.264 MP4 368×656, 30.64s | Video stream validated |
+| `media/assets/img/fly.jpg` | JPEG 739×415 | Decodes |
+| `media/assets/img/gal.jpg` | JPEG 810×1080 | Decodes |
+| `media/assets/img/gal2.jpg` | JPEG 720×715 | Decodes |
+| `media/assets/img/gal3.jpg` | JPEG 480×360 | Decodes |
+| `media/assets/img/gal5.jpg` | JPEG 2976×3968 | Decodes |
+| `media/assets/img/gal6.jpg` | JPEG 3264×2448 | Decodes |
+| `media/assets/img/gal7.jpg` | JPEG 2448×3264 | Decodes |
+| `media/assets/img/gal8.jpg` | JPEG 3264×2448 | Decodes |
+| `media/assets/img/panel.jpg` | JPEG 4160×3120 | Decodes |
+| `media/assets/img/sat.jpg` | JPEG 540×960 | Decodes |
+| `media/assets/img/vsat4.jpg` | JPEG 720×404 | Decodes |
+| `media/assets/img/vsat5.jpg` | JPEG 539×404 | Decodes |
+| `media/assets/img/vsat6.jpg` | JPEG 540×405 | Decodes |
+| `media/assets/img/vsat7.jpg` | JPEG 540×405 | Decodes |
+| `media/assets/img/vsat8.jpg` | JPEG 720×405 | Decodes |
+| `media/assets/img/vsat9.jpg` | JPEG 720×404 | Decodes |
+| `media/assets/img/vsatv1.mp4` | H.264 MP4 624×368, 58.97s | Video stream validated |
+| `media/assets/img/vsatv2.mp4` | H.264 MP4 368×624, 49.87s | Video stream validated |
+| `media/assets/img/yaks.jpg` | JPEG 3120×3120 | Decodes |
+| `media/signageassets/img/doortags.jpg` | JPEG 4160×3120 | Decodes |
+| `media/signageassets/img/vet.jpg` | JPEG 4160×3120 | Decodes |
+
+## Still missing from the supplied archive
+
+- `sol2.jpg`
+- `prints.jpg`
+- `publishing.jpg`
+- `souvenir.jpg`
+- `signage.jpg`
+- `machine.jpg`
+- `jotter.jpg`
+- `envelopes.jpg`
+- `throwpillow.jpg`
+- `mugs.jpg`
+- `frames.jpg`
+- `tshirts.jpg`
+- `invoice.jpg`
+- `sign.jpg`
+- `neon.jpg`
+- `bcard.jpg`
+- `signvid.mp4`
+
+The missing filenames above are relative to the original media folders; check the asset register below for the full paths and source-page references.
+
+## Full repository asset register
 
 | Media path | References | Current source pages |
 |---|---:|---|
@@ -66,21 +121,19 @@ The same media asset is often reused on multiple pages. Preserve the existing fi
 | /media/signageassets/img/tshirts.jpg | 3 | index.html, projects.html |
 | /media/signageassets/img/vet.jpg | 1 | projects.html |
 
-## Migration handling
+## Migration handling and release gates
 1. Recover the original images and videos at their original resolution and quality. Do not substitute unrelated stock images for genuine NGP project evidence.
 2. Confirm each file is authorised for public use and that captions accurately describe the activity shown.
 3. Store assets in a production-managed location with stable URLs, appropriate cache headers and a backup copy.
-4. Preserve file names or update every reference in a single controlled change.
-5. Test each asset by HTTP status, content type, dimensions/duration and visual playback.
+4. Preserve file names and directory paths, or update every reference consistently in a single controlled change.
+5. Test each asset by HTTP status, content type, dimensions/duration and visual inspection/playback.
 6. Check image alternative text and video captions/transcripts where applicable.
 7. Remove the legacy media proxy only after all 49 assets are accounted for and no page references the old origin.
+8. Re-run the static quality gate and preview/live HTTP smoke test. Do not describe this archive receipt as a successful production migration.
 
-## Evidence needed from the company
-Please provide the original image/video archive or the source folders for:
-- General field and installation photos
-- Satellite/VSAT installations and equipment
-- Engineering/BIM and infrastructure work
-- Printing, signage and branded merchandise
-- Project gallery photographs and videos
+## Outstanding owner-side evidence
+- The 17 missing originals listed above.
+- Cloudflare Pages/R2 or other approved production storage access to publish the recovered files.
+- Preview URL and post-upload access to verify all asset responses.
 
-Do not upload credentials or private client records with the media archive.
+No credentials should be uploaded with the media archive.
