@@ -12,6 +12,7 @@ This branch contains a controlled content and consent-clarity repair based on a 
 - Expanded Training with a practical learning approach and explicit distinction between the proposed skills centre and confirmed course dates or operational facilities.
 - Expanded Partnership with a documented due-diligence and governance pathway.
 - Expanded Contact with the information clients should include and a warning not to submit passwords, PINs or payment-card data.
+- Rewrote the Privacy Policy in plain language to describe enquiry data, technical data, analytics/advertising, consent choices, third-party services, retention, security and privacy requests; retained working consent controls and removed ad loaders from legal/error pages.
 - Expanded Printing, Signage & Sound with artwork approval, materials, installation and event-sound briefing guidance.
 - Expanded Integrated Projects with workstream, programme, risk, communication and handover controls.
 - Standardised the visible rejection wording to "Reject optional" on pages where the legacy label was "Essential only"; the stored choice remains the existing `essential` value and optional Google Consent Mode storage remains denied.
