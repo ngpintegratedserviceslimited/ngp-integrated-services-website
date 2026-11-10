@@ -12,14 +12,14 @@
     var el=document.getElementById("cookie-consent")||document.getElementById("cookie-banner");
     if(!el){
       el=document.createElement("section");el.id="cookie-consent";el.setAttribute("aria-label","Privacy and cookie preferences");
-      el.innerHTML='<strong>Privacy &amp; cookies</strong><p style="margin:8px 0 12px">Essential technologies keep this website working. With your permission, analytics and advertising technologies may also be used. Read our <a href="/privacy-policy">Privacy Policy</a>.</p><button id="cookie-accept" type="button">Accept all</button> <button id="cookie-essential" type="button">Essential only</button>';
+      el.innerHTML='<strong>Privacy &amp; cookies</strong><p style="margin:8px 0 12px">Essential technologies keep this website working. With your permission, analytics and advertising technologies may also be used. Read our <a href="/privacy-policy">Privacy Policy</a>.</p><button id="cookie-accept" type="button">Accept all</button> <button id="cookie-essential" type="button">Reject optional</button>';
       document.body.appendChild(el);
     }
     el.style.cssText+=";display:block;position:fixed;left:16px;right:16px;bottom:16px;z-index:99999;max-width:720px;margin:auto;background:#fff;color:#171a29;border:1px solid #dfe3ea;border-radius:14px;box-shadow:0 12px 35px rgba(0,0,0,.15);padding:16px;font:14px/1.5 Arial,sans-serif";
     var a=document.getElementById("cookie-accept"),r=document.getElementById("cookie-essential")||document.getElementById("cookie-reject");
     if(a){a.textContent="Accept all";a.type="button";a.onclick=function(){update("accepted")};}
-    if(!r){r=document.createElement("button");r.id="cookie-essential";r.type="button";r.textContent="Essential only";el.appendChild(r)}
-    r.textContent="Essential only";r.type="button";r.onclick=function(){update("essential")};
+    if(!r){r=document.createElement("button");r.id="cookie-essential";r.type="button";r.textContent="Reject optional";el.appendChild(r)}
+    r.textContent="Reject optional";r.type="button";r.onclick=function(){update("essential")};
     var saved=null;try{saved=localStorage.getItem(key)}catch(e){}
     if(saved==="accepted"||saved==="essential")update(saved);else el.style.display="block";
   }
