@@ -16,7 +16,7 @@ This branch contains a controlled content and consent-clarity repair based on a 
 - Expanded Printing, Signage & Sound with artwork approval, materials, installation and event-sound briefing guidance.
 - Expanded Integrated Projects with workstream, programme, risk, communication and handover controls.
 - Standardised the visible rejection wording to "Reject optional" on pages where the legacy label was "Essential only"; the stored choice remains the existing `essential` value and optional Google Consent Mode storage remains denied.
-- Updated sitemap `lastmod` dates for pages changed in this branch. The sitemap still contains 21 canonical HTTPS URLs.
+- Updated sitemap `lastmod` dates for pages changed in this branch. The sitemap still contains 24 canonical HTTPS URLs.
 - Kept the confirmed GA4 measurement ID `G-190BLHG93V` and AdSense publisher declaration `pub-2745538383126037` unchanged.
 
 ## Deliberately not changed
@@ -37,10 +37,13 @@ No deployment is performed by this branch. Before production release, verify Clo
 
 - [ ] Build and inspect the Cloudflare Pages preview.
 - [ ] Check mobile layout, navigation, page titles, canonical tags and internal links.
-- [ ] Confirm all 21 sitemap URLs return the intended canonical page.
+- [ ] Confirm all 24 sitemap URLs return the intended canonical page.
 - [ ] Migrate legacy media to production-managed storage and verify every image/video before removing the proxy.
 - [ ] Test consent defaults, acceptance, rejection and saved-choice behaviour.
 - [ ] Confirm GA4 receives expected events after consent choices.
 - [ ] Confirm `https://ngpintegratedservices.com/ads.txt` serves the expected publisher row.
 - [ ] Review AdSense and Search Console account-side diagnostics.
 - [ ] Obtain approval before merging to `main` and deploying production.
+
+## Follow-on quality programme
+The quality-gates branch adds three practical Knowledge Centre guides (satellite/VSAT readiness, solar backup for security and ICT, and printing/signage project planning), bringing the repository sitemap to 24 URLs. It also adds static and manual live/preview smoke-test scripts.
