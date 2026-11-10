@@ -1,0 +1,24 @@
+name: NGP website quality gate
+
+on:
+  push:
+    branches: [main, "quality/**", "content/**"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-quality:
+    name: Static website audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run NGP static-site quality gate
+        run: node scripts/audit-site.mjs
