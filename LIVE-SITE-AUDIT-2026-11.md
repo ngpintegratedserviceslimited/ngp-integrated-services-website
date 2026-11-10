@@ -58,3 +58,6 @@ The live site is **not technically release-verified**. The media failure is a cr
 
 ## Repository quality-gate findings
 The first GitHub Actions run identified four legacy consent labels in duplicate HTML pages and three short metadata descriptions. Those findings were corrected in subsequent commits. The static audit is retained as a regression gate; the outstanding /media/ references are intentionally warnings until the underlying files are migrated and verified. The alternate infy.uk website link remains a separate corporate reference and is not treated as a media-origin dependency.
+
+## Latest repository static gate
+The latest GitHub Actions static audit on the quality branch passed with 0 errors and 1 warning. It scanned 30 HTML files, validated 24 sitemap URLs, found the expected ads.txt publisher row and 56 occurrences of the correct GA4 ID, and reported zero broken local source references. The single warning is the 111 remaining /media/ proxy references, which cannot be cleared until the underlying assets are migrated and verified.
