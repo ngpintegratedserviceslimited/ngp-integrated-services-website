@@ -99,8 +99,9 @@ for (const file of htmlFiles) {
   mediaReferences += (html.match(/(?:src|href|url\([^)]*)=["']?\/media\//g) || []).length;
 
   const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim();
-  const description = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1]
-    || html.match(/<meta\s+content=["']([^"']*)["']\s+name=["']description["']/i)?.[1];
+  const description = html.match(/<meta\b[^>]*\bname=["']description["'][^>]*\bcontent="([^"]*)"/i)?.[1]
+    || html.match(/<meta\b[^>]*\bcontent="([^"]*)"[^>]*\bname=["']description["']/i)?.[1]
+    || html.match(/<meta\b[^>]*\bname='description'[^>]*\bcontent='([^']*)'/i)?.[1];
   const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
   const h1Count = (html.match(/<h1\b/gi) || []).length;
 
