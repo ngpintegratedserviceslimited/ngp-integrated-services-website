@@ -28,6 +28,8 @@ jobs:
           node-version: 20
       - name: Run NGP static-site quality gate
         run: node scripts/audit-site.mjs
+      - name: Inventory referenced media assets
+        run: node scripts/media-inventory.mjs
 
   live-smoke:
     name: Live or preview HTTP smoke test
