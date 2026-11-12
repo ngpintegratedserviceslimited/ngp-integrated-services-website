@@ -3,8 +3,8 @@
 **Repository branch:** `quality/website-audit-gates-2026-11`
 
 ## Inventory summary
-- After the 14 signage-image path corrections, the latest GitHub Actions inventory reports **31 unique `/media/` paths** and **80 references** across repository HTML, JavaScript and CSS.
-- The static HTML quality gate reports **74 direct `/media/` references**; the migrated root `/img/` assets are local static files and pass the general local-reference gate.
+- After the 14 signage-image path corrections, the latest GitHub Actions inventory reports **31 unique `/media/` paths** and **80 references** across repository HTML, JavaScript and CSS. The Pages Function now checks the bundled local asset first and only contacts the legacy host when a file is absent locally.
+- The static HTML quality gate reports **74 direct `/media/` references**. These now resolve through a local-first Pages asset route; only the two unavailable originals (`sol2.jpg` and `signvid.mp4`) should need the legacy fallback.
 - The production audit tested 18 homepage-referenced media URLs; all 18 returned HTTP 404. The official logo at `/assets/img/logo.png` returned HTTP 200.
 - The company has now supplied two restoration archives in ChatGPT. The larger archive, `ngp-site-assets-restoration.zip`, contains **29 recovered originals: 24 JPEG images and 5 MP4 videos**, preserving the repository's expected directory structure.
 - The recovered archive was validated: all 24 JPEGs decoded successfully and all 5 MP4s exposed valid H.264 video streams via ffprobe.
@@ -53,7 +53,7 @@
 - `sol2.jpg` — five remaining references use `/media/assets/img/sol2.jpg`; do not replace with unrelated stock imagery.
 - `signvid.mp4` — one remaining reference uses `/media/signageassets/img/signvid.mp4`; do not substitute another video.
 
-The other 15 filenames from the earlier archive-missing list were located in the repository's root `img/` directory and their page references were migrated to `/img/`. The static audit still reports 74 HTML references using the `/media/` proxy; this includes assets that are present in the repository and does not establish that the old-origin proxy is healthy.
+The other 15 filenames from the earlier archive-missing list were located in the repository's root `img/` directory and their page references were migrated to `/img/`. The static audit counts 74 HTML references routed through `/media/`. The Pages Function now serves matching repository assets first via the Pages `ASSETS` binding; only missing originals use the legacy-host fallback. Production delivery still requires a post-deployment HTTP check.
 
 ## Full repository asset register
 
