@@ -3,7 +3,7 @@
 **Repository branch:** `quality/website-audit-gates-2026-11`
 
 ## Inventory summary
-- **49 unique media paths** and **118 references** were found across repository HTML, JavaScript and CSS.
+- **46 unique media paths** and **118 references** were found across repository HTML, JavaScript and CSS.
 - The static HTML quality gate separately reports **111 direct `/media/` references**.
 - The production audit tested 18 homepage-referenced media URLs; all 18 returned HTTP 404. The official logo at `/assets/img/logo.png` returned HTTP 200.
 - The company has now supplied two restoration archives in ChatGPT. The larger archive, `ngp-site-assets-restoration.zip`, contains **29 recovered originals: 24 JPEG images and 5 MP4 videos**, preserving the repository's expected directory structure.
@@ -101,9 +101,6 @@ The missing filenames above are relative to the original media folders; check th
 | /media/assets/img/vsatv1.mp4 | 1 | projects.html |
 | /media/assets/img/vsatv2.mp4 | 1 | projects.html |
 | /media/assets/img/yaks.jpg | 1 | projects.html |
-| /media/assets/video/bv2.mp4 | 1 | index.html |
-| /media/assets/video/bv3.mp4 | 1 | index.html |
-| /media/assets/video/bv5.mp4 | 1 | index.html |
 | /media/signageassets/img/bcard.jpg | 5 | index.html, printing-signage/index.html, projects.html |
 | /media/signageassets/img/doortags.jpg | 1 | projects.html |
 | /media/signageassets/img/envelopes.jpg | 1 | projects.html |
