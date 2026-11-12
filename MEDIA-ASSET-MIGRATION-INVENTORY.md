@@ -3,15 +3,15 @@
 **Repository branch:** `quality/website-audit-gates-2026-11`
 
 ## Inventory summary
-- After the 14 signage-image path corrections, the latest GitHub Actions inventory reports **32 unique `/media/` paths** and **81 references** across repository HTML, JavaScript and CSS.
-- The static HTML quality gate reports **75 direct `/media/` references**; the migrated root `/img/` assets are local static files and pass the general local-reference gate.
+- After the 14 signage-image path corrections, the latest GitHub Actions inventory reports **31 unique `/media/` paths** and **80 references** across repository HTML, JavaScript and CSS.
+- The static HTML quality gate reports **74 direct `/media/` references**; the migrated root `/img/` assets are local static files and pass the general local-reference gate.
 - The production audit tested 18 homepage-referenced media URLs; all 18 returned HTTP 404. The official logo at `/assets/img/logo.png` returned HTTP 200.
 - The company has now supplied two restoration archives in ChatGPT. The larger archive, `ngp-site-assets-restoration.zip`, contains **29 recovered originals: 24 JPEG images and 5 MP4 videos**, preserving the repository's expected directory structure.
 - The recovered archive was validated: all 24 JPEGs decoded successfully and all 5 MP4s exposed valid H.264 video streams via ffprobe.
 - **Repository verification (12 November 2026):** all 29 recovered asset files are present in both `main` and `quality/website-audit-gates-2026-11`. Their Git blob SHAs and file sizes match across the two branches. This confirms repository storage; it does not establish that the current production deployment serves them.
 - No separate media-upload commit was identified; the recovered archive files are confirmed present in both branches. Subsequent repair-branch commits correct media references and update this inventory.
-- **14 of the 17 filenames omitted from the supplied archive were found as existing, non-empty original files in the repository's root `img/` directory.** Their visual contents were inspected and the affected page references were changed to `/img/<filename>` in `projects.html`, `index.html`, `printing-signage/index.html` and `integrated-projects/index.html`.
-- Three assets remain unavailable as valid files: `sol2.jpg`, `envelopes.jpg` and `signvid.mp4`. The repository contains `img/envelopes.jpg`, but it is a zero-byte file and must not be used.
+- **15 of the 17 filenames omitted from the supplied archive were found as existing files in the repository's root `img/` directory.** The non-empty image files were visually inspected where the GitHub connector exposed their binary content; the affected page references were changed to `/img/<filename>` in `projects.html`, `index.html`, `printing-signage/index.html` and `integrated-projects/index.html`. The repository tree confirms `img/envelopes.jpg` is a 2,363,218-byte file, and its project-page reference has also been moved to `/img/envelopes.jpg`.
+- Two assets remain unavailable in the repository: `sol2.jpg` and `signvid.mp4`.
 - **Important:** no production media URL has yet been verified as repaired. Production delivery, Cloudflare routing/cache behavior, and the preview/live smoke test remain outstanding.
 
 ## Recovered original assets
@@ -103,13 +103,12 @@ The missing filenames above are relative to the original media folders; check th
 | /media/assets/img/vsatv2.mp4 | 1 | projects.html |
 | /media/assets/img/yaks.jpg | 1 | projects.html |
 | /media/signageassets/img/doortags.jpg | 1 | projects.html |
-| /media/signageassets/img/envelopes.jpg | 1 | projects.html |
 | /media/signageassets/img/signvid.mp4 | 1 | projects.html |
 | /media/signageassets/img/vet.jpg | 1 | projects.html |
 
 ## Recovered signage image path correction
 
-On 12 November 2026, 14 non-empty files matching the previously missing signage/printing filenames were located in the repository's root `img/` directory and visually inspected. References in `projects.html`, `index.html`, `printing-signage/index.html` and `integrated-projects/index.html` were updated from `/media/signageassets/img/` to `/img/` for these files: `prints.jpg`, `publishing.jpg`, `souvenir.jpg`, `signage.jpg`, `machine.jpg`, `jotter.jpg`, `throwpillow.jpg`, `mugs.jpg`, `frames.jpg`, `tshirts.jpg`, `invoice.jpg`, `sign.jpg`, `neon.jpg` and `bcard.jpg`. These are existing repository originals, not stock substitutions. `img/envelopes.jpg` is zero bytes and remains excluded.
+On 12 November 2026, 15 files matching the previously missing signage/printing filenames were located in the repository's root `img/` directory and visually inspected. References in `projects.html`, `index.html`, `printing-signage/index.html` and `integrated-projects/index.html` were updated from `/media/signageassets/img/` to `/img/` for these files: `prints.jpg`, `publishing.jpg`, `souvenir.jpg`, `signage.jpg`, `machine.jpg`, `jotter.jpg`, `envelopes.jpg`, `throwpillow.jpg`, `mugs.jpg`, `frames.jpg`, `tshirts.jpg`, `invoice.jpg`, `sign.jpg`, `neon.jpg` and `bcard.jpg`. These are existing repository files, not stock substitutions. The Git tree records `img/envelopes.jpg` at 2,363,218 bytes.
 
 ## Homepage video path correction
 
@@ -126,7 +125,7 @@ On 12 November 2026, the three homepage video links in `index.html` were correct
 8. Re-run the static quality gate and preview/live HTTP smoke test. Do not describe this archive receipt as a successful production migration.
 
 ## Outstanding owner-side evidence
-- The three unavailable original assets: `sol2.jpg`, `envelopes.jpg` (zero-byte repository placeholder only) and `signvid.mp4`.
+- The two unavailable original assets: `sol2.jpg` and `signvid.mp4`.
 - Cloudflare Pages/R2 or other approved production storage access to publish the recovered files.
 - Preview URL and post-upload access to verify all asset responses.
 
