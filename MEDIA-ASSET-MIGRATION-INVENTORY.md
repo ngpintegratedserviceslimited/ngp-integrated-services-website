@@ -123,9 +123,9 @@ The missing filenames above are relative to the original media folders; check th
 | /media/signageassets/img/tshirts.jpg | 3 | index.html, projects.html |
 | /media/signageassets/img/vet.jpg | 1 | projects.html |
 
-## Additional path issue found
+## Homepage video path correction
 
-The recovered video files `bv2.mp4`, `bv3.mp4` and `bv5.mp4` are stored under `media/assets/img/`, while the homepage also references them under `media/assets/video/`. Those three references must be reconciled by either placing the same originals at the referenced `/media/assets/video/` paths or updating the references consistently. Do not delete the existing copies.
+On 12 November 2026, the three homepage video links in `index.html` were corrected to point to the verified recovered originals under `/media/assets/img/`: `bv2.mp4`, `bv3.mp4` and `bv5.mp4`. The original recovered files remain unchanged. This source correction is committed on the repair branch; live/preview HTTP delivery still requires verification.
 
 ## Migration handling and release gates
 1. Recover the original images and videos at their original resolution and quality. Do not substitute unrelated stock images for genuine NGP project evidence.
