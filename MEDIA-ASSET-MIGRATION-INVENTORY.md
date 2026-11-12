@@ -3,14 +3,14 @@
 **Repository branch:** `quality/website-audit-gates-2026-11`
 
 ## Inventory summary
-- After the 14 signage-image path corrections, the latest GitHub Actions inventory reports **31 unique `/media/` paths** and **80 references** across repository HTML, JavaScript and CSS.
-- The static HTML quality gate reports **74 direct `/media/` references**; the migrated root `/img/` assets are local static files and pass the general local-reference gate.
+- After the 14 signage-image path corrections, the latest GitHub Actions inventory reports **32 unique `/media/` paths** and **81 references** across repository HTML, JavaScript and CSS.
+- The static HTML quality gate reports **75 direct `/media/` references**; the migrated root `/img/` assets are local static files and pass the general local-reference gate.
 - The production audit tested 18 homepage-referenced media URLs; all 18 returned HTTP 404. The official logo at `/assets/img/logo.png` returned HTTP 200.
 - The company has now supplied two restoration archives in ChatGPT. The larger archive, `ngp-site-assets-restoration.zip`, contains **29 recovered originals: 24 JPEG images and 5 MP4 videos**, preserving the repository's expected directory structure.
 - The recovered archive was validated: all 24 JPEGs decoded successfully and all 5 MP4s exposed valid H.264 video streams via ffprobe.
 - **Repository verification (12 November 2026):** all 29 recovered asset files are present in both `main` and `quality/website-audit-gates-2026-11`. Their Git blob SHAs and file sizes match across the two branches. This confirms repository storage; it does not establish that the current production deployment serves them.
 - No separate media-upload commit was identified; the recovered archive files are confirmed present in both branches. Subsequent repair-branch commits correct media references and update this inventory.
-- **15 of the 17 filenames omitted from the supplied archive were found as existing files in the repository's root `img/` directory.** The non-empty image files were visually inspected where the GitHub connector exposed their binary content; the affected page references were changed to `/img/<filename>` in `projects.html`, `index.html`, `printing-signage/index.html` and `integrated-projects/index.html`. The repository tree confirms `img/envelopes.jpg` is a 2,363,218-byte file, and its project-page reference has also been moved to `/img/envelopes.jpg`.
+- **15 of the 17 filenames omitted from the supplied archive were found in the repository's root `img/` directory.** References were migrated to `/img/<filename>` in the affected pages. The static audit and media inventory are the authoritative current counts; a few `/media/` references remain to be reconciled individually.
 - Two assets remain unavailable in the repository: `sol2.jpg` and `signvid.mp4`.
 - **Important:** no production media URL has yet been verified as repaired. Production delivery, Cloudflare routing/cache behavior, and the preview/live smoke test remain outstanding.
 
@@ -48,27 +48,12 @@
 | `media/signageassets/img/doortags.jpg` | JPEG 4160×3120 | Decodes |
 | `media/signageassets/img/vet.jpg` | JPEG 4160×3120 | Decodes |
 
-## Still missing from the supplied archive
+## Original assets still unavailable
 
-- `sol2.jpg`
-- `prints.jpg`
-- `publishing.jpg`
-- `souvenir.jpg`
-- `signage.jpg`
-- `machine.jpg`
-- `jotter.jpg`
-- `envelopes.jpg`
-- `throwpillow.jpg`
-- `mugs.jpg`
-- `frames.jpg`
-- `tshirts.jpg`
-- `invoice.jpg`
-- `sign.jpg`
-- `neon.jpg`
-- `bcard.jpg`
-- `signvid.mp4`
+- `sol2.jpg` — five remaining references use `/media/assets/img/sol2.jpg`; do not replace with unrelated stock imagery.
+- `signvid.mp4` — one remaining reference uses `/media/signageassets/img/signvid.mp4`; do not substitute another video.
 
-The missing filenames above are relative to the original media folders; check the asset register below for the full paths and source-page references.
+The other 15 filenames from the earlier archive-missing list were located in the repository's root `img/` directory and their page references were migrated to `/img/`. The static audit still reports 75 HTML references using the `/media/` proxy; this includes assets that are present in the repository and does not establish that the old-origin proxy is healthy.
 
 ## Full repository asset register
 
