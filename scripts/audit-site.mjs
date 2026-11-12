@@ -82,6 +82,7 @@ if (exists("ads.txt")) {
 
 let gaOccurrences = 0;
 let mediaReferences = 0;
+const missingMediaAssets = new Set();
 let legacyHostReferences = 0;
 let internalLinkFailures = 0;
 for (const file of htmlFiles) {
@@ -96,7 +97,12 @@ for (const file of htmlFiles) {
     if (id !== GA_ID) fail(`Unexpected GA measurement ID ${id} in ${rel}`);
   }
   if (/https?:\/\/(?:www\.)?ngpintegratedservices\.infy\.uk\/media\//i.test(html)) legacyHostReferences++;
-  mediaReferences += (html.match(/(?:src|href|url\([^)]*)=["']?\/media\//g) || []).length;
+  const mediaMatches = [...html.matchAll(/(?:src|href)=["'](\/media\/[^"']+)/g)];
+  mediaReferences += mediaMatches.length;
+  for (const match of mediaMatches) {
+    const localPath = match[1].split(/[?#]/)[0].replace(/^\/+/, "");
+    if (!exists(localPath)) missingMediaAssets.add(localPath);
+  }
 
   const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim();
   const description = html.match(/<meta\b[^>]*\bname=["']description["'][^>]*\bcontent="([^"]*)"/i)?.[1]
@@ -134,7 +140,7 @@ for (const file of htmlFiles) {
         ? new URL(value, DOMAIN).pathname
         : path.posix.normalize(path.posix.join(pageDir === "." ? "" : pageDir, value.split(/[?#]/)[0]));
     } catch { continue; }
-    if (pathname.startsWith("/media/") || pathname.startsWith("media/")) continue; // dynamic legacy media proxy; tracked separately
+    if (pathname.startsWith("/media/") || pathname.startsWith("media/")) continue; // checked against bundled files above
     if (/\.[a-z0-9]{2,5}$/i.test(pathname)) {
       const p = pathname.replace(/^\/+/, "");
       if (!exists(p)) {
@@ -149,12 +155,13 @@ for (const file of htmlFiles) {
 }
 if (!gaOccurrences) warn("No GA4 measurement ID found in HTML; confirm whether analytics is intentionally disabled.");
 if (legacyHostReferences) warn(`Legacy media-origin URL appears in ${legacyHostReferences} HTML file(s); investigate and remove after verified media migration.`);
-if (mediaReferences) warn(`${mediaReferences} HTML media reference(s) still use the /media/ proxy; migrate and verify originals before retiring the legacy origin.`);
+if (missingMediaAssets.size) warn(`${missingMediaAssets.size} referenced media asset(s) are not bundled locally and still depend on the legacy fallback: ${[...missingMediaAssets].join(", ")}`);
 report.push(`HTML files scanned: ${htmlFiles.length}`);
 report.push(`GA4 ID occurrences: ${gaOccurrences} (expected ID: ${GA_ID})`);
 report.push(`Internal reference warnings: ${internalLinkFailures}`);
 report.push(`Legacy-host HTML files: ${legacyHostReferences}`);
-report.push(`Media proxy references: ${mediaReferences}`);
+report.push(`Media references (local-first Pages route): ${mediaReferences}`);
+report.push(`Missing bundled media assets: ${missingMediaAssets.size}`);
 
 console.log("NGP WEBSITE QUALITY GATE");
 for (const line of report) console.log(`PASS/INFO  ${line}`);
