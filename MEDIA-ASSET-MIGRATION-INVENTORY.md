@@ -7,9 +7,11 @@
 - The static HTML quality gate separately reports **111 direct `/media/` references**.
 - The production audit tested 18 homepage-referenced media URLs; all 18 returned HTTP 404. The official logo at `/assets/img/logo.png` returned HTTP 200.
 - The company has now supplied two restoration archives in ChatGPT. The larger archive, `ngp-site-assets-restoration.zip`, contains **29 recovered originals: 24 JPEG images and 5 MP4 videos**, preserving the repository's expected directory structure.
-- The recovered archive was extracted and validated locally. All 24 JPEGs passed image decoding; all 5 MP4s exposed valid H.264 video streams via ffprobe. No files were renamed.
+- The recovered archive was validated: all 24 JPEGs decoded successfully and all 5 MP4s exposed valid H.264 video streams via ffprobe.
+- **Repository verification (12 November 2026):** all 29 recovered asset files are present in both `main` and `quality/website-audit-gates-2026-11`. Their Git blob SHAs and file sizes match across the two branches. This confirms repository storage; it does not establish that the current production deployment serves them.
+- The branch head remains `8ee93459d0872e27eb26c9e30c06c1acd9ea8c44`; no separate media-upload commit was found on the repair branch during this verification.
 - **17 assets remain missing** from the supplied archive and are listed below. No substitute images have been invented.
-- **Important:** archive validation is not deployment. These 29 assets have not yet been committed to GitHub or uploaded to Cloudflare, and no production URL has been verified as repaired.
+- **Important:** no production media URL has yet been verified as repaired. Production delivery, Cloudflare routing/cache behavior, and the preview/live smoke test remain outstanding.
 
 ## Recovered original assets
 
@@ -120,6 +122,10 @@ The missing filenames above are relative to the original media folders; check th
 | /media/signageassets/img/throwpillow.jpg | 1 | projects.html |
 | /media/signageassets/img/tshirts.jpg | 3 | index.html, projects.html |
 | /media/signageassets/img/vet.jpg | 1 | projects.html |
+
+## Additional path issue found
+
+The recovered video files `bv2.mp4`, `bv3.mp4` and `bv5.mp4` are stored under `media/assets/img/`, while the homepage also references them under `media/assets/video/`. Those three references must be reconciled by either placing the same originals at the referenced `/media/assets/video/` paths or updating the references consistently. Do not delete the existing copies.
 
 ## Migration handling and release gates
 1. Recover the original images and videos at their original resolution and quality. Do not substitute unrelated stock images for genuine NGP project evidence.
