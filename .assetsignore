@@ -7,5 +7,7 @@
 /worker/
 /_routes.json
 /wrangler.jsonc
+/.assetsignore
+/PRODUCTION_SYNC_2026-10-01.txt
 /*.md
 /*.zip
