@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4.161.0/config-schema.json",
+  "name": "ngp-integrated-services-website",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-13",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": ["/media/*"],
+    "not_found_handling": "404-page"
+  }
+}

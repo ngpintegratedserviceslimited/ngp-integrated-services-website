@@ -1,5 +1,13 @@
-# Exclude repository metadata and temporary Wrangler build artifacts from public static assets.
+# Keep repository-only material out of the public static asset upload.
 /.git/
-/.git/**
 /.wrangler/
-/.wrangler/**
+/.github/
+/functions/
+/scripts/
+/worker/
+/_routes.json
+/wrangler.jsonc
+/.assetsignore
+/PRODUCTION_SYNC_2026-10-01.txt
+/*.md
+/*.zip
