@@ -49,6 +49,9 @@ if (!exists(sitemapPath)) fail("Missing sitemap.xml");
 if (!exists("ads.txt")) fail("Missing root ads.txt");
 if (!exists("robots.txt")) fail("Missing robots.txt");
 if (!exists("_redirects")) warn("No _redirects file found; verify Cloudflare Pages route handling.");
+if (exists("style.css") && !read("style.css").includes(".nav nav.mobile-open")) {
+  fail("Shared stylesheet is missing the mobile navigation panel rules.");
+}
 
 let sitemapUrls = [];
 if (exists(sitemapPath)) {
@@ -124,6 +127,17 @@ for (const file of htmlFiles) {
       if (expected && canonical !== expected) fail(`Canonical mismatch in ${rel}: expected ${expected}, got ${canonical}`);
     }
     if (h1Count !== 1) warn(`Expected one primary H1 on ${rel}; found ${h1Count}`);
+    if (!["privacy-policy.html", "terms.html"].includes(rel)) {
+      const gaConfigCount = (html.match(/gtag\(\s*["']config["']\s*,\s*["']G-190BLHG93V["']/g) || []).length;
+      if (gaConfigCount !== 1) fail(`Expected exactly one GA4 config on sitemap page ${rel}; found ${gaConfigCount}`);
+      if (!html.includes("ngp-consent") || !html.includes("Reject optional") || !/cookie-(?:accept|reject|essential)/.test(html)) {
+        fail(`Missing complete consent-choice controls on sitemap page: ${rel}`);
+      }
+      const hasPrimaryNav = /<nav\b[^>]*id=["']primary-navigation["']/i.test(html);
+      const hasMenuControl = /<button\b(?=[^>]*aria-controls=["']primary-navigation["'])(?=[^>]*aria-expanded=["']false["'])[^>]*>/i.test(html);
+      if (!hasPrimaryNav || !hasMenuControl) fail(`Missing accessible mobile navigation controls on sitemap page: ${rel}`);
+      if (hasMenuControl && !/classList\.toggle\(["']mobile-open["']\)/.test(html)) fail(`Mobile menu does not toggle its navigation panel on ${rel}`);
+    }
   }
 
   if (["privacy-policy.html", "terms.html", "404.html"].includes(rel) && html.includes("adsbygoogle.js")) {

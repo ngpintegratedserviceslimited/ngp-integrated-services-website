@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#1428d4">
 <title>Momodu God'spower Olaoluwa Oluwaseyi | NGP Integrated Services Limited</title>
 <link rel="stylesheet" href="/style.css">
-<script type="application/ld+json">
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}var ngpConsent='essential';try{ngpConsent=localStorage.getItem('ngp-consent')||'essential'}catch(e){}var ngpConsentGranted=ngpConsent==='accepted';gtag('consent','default',{analytics_storage:ngpConsentGranted?'granted':'denied',ad_storage:ngpConsentGranted?'granted':'denied',ad_user_data:ngpConsentGranted?'granted':'denied',ad_personalization:ngpConsentGranted?'granted':'denied',wait_for_update:500});gtag('js',new Date());</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-190BLHG93V"></script><script>gtag('config','G-190BLHG93V');</script><script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Person",
@@ -60,12 +60,12 @@
 <header>
   <div class="container nav">
     <a class="brand" href="/" aria-label="NGP Integrated Services Limited home"><img src="/assets/img/logo.png" alt="Official NGP Integrated Services Limited logo" width="58" height="58"></a>
-    <nav>
+    <nav id="primary-navigation" aria-label="Main navigation">
       <a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a>
       <a href="/projects">Projects</a><a href="/training">Training</a>
       <a href="/partnership">Partnership</a><a class="nav-cta" href="/contact">Contact</a>
     </nav>
-    <button class="menu" type="button" onclick="document.querySelector('nav').style.display=document.querySelector('nav').style.display==='flex'?'none':'flex'" aria-label="Toggle navigation">☰</button>
+    <button class="menu" type="button" aria-label="Toggle main menu" aria-controls="primary-navigation" aria-expanded="false" onclick="var n=document.getElementById('primary-navigation');var open=n.classList.toggle('mobile-open');this.setAttribute('aria-expanded',String(open))">☰</button>
   </div>
 </header>
 <main>
@@ -164,5 +164,32 @@
   <div class="container copy">© <span id="year"></span> NGP Integrated Services Limited · RC: 7738832</div>
 </footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-</body>
+<script>
+(function(){
+  var key="ngp-consent";
+  function update(choice){
+    var granted=choice==="accepted";
+    try{localStorage.setItem(key,choice)}catch(e){}
+    if(typeof window.gtag==="function")window.gtag("consent","update",{analytics_storage:granted?"granted":"denied",ad_storage:granted?"granted":"denied",ad_user_data:granted?"granted":"denied",ad_personalization:granted?"granted":"denied"});
+    var el=document.getElementById("cookie-consent")||document.getElementById("cookie-banner");
+    if(el)el.style.display="none";
+  }
+  function init(){
+    var el=document.getElementById("cookie-consent")||document.getElementById("cookie-banner");
+    if(!el){
+      el=document.createElement("section");el.id="cookie-consent";el.setAttribute("aria-label","Privacy and cookie preferences");
+      el.innerHTML='<strong>Privacy &amp; cookies</strong><p style="margin:8px 0 12px">Essential technologies keep this website working. With your permission, analytics and advertising technologies may also be used. Read our <a href="/privacy-policy">Privacy Policy</a>.</p><button id="cookie-accept" type="button">Accept all</button> <button id="cookie-essential" type="button">Reject optional</button>';
+      document.body.appendChild(el);
+    }
+    el.style.cssText+=";display:block;position:fixed;left:16px;right:16px;bottom:16px;z-index:99999;max-width:720px;margin:auto;background:#fff;color:#171a29;border:1px solid #dfe3ea;border-radius:14px;box-shadow:0 12px 35px rgba(0,0,0,.15);padding:16px;font:14px/1.5 Arial,sans-serif";
+    var a=document.getElementById("cookie-accept"),r=document.getElementById("cookie-essential")||document.getElementById("cookie-reject");
+    if(a){a.textContent="Accept all";a.type="button";a.onclick=function(){update("accepted")};}
+    if(!r){r=document.createElement("button");r.id="cookie-essential";r.type="button";r.textContent="Reject optional";el.appendChild(r)}
+    r.textContent="Reject optional";r.type="button";r.onclick=function(){update("essential")};
+    var saved=null;try{saved=localStorage.getItem(key)}catch(e){}
+    if(saved==="accepted"||saved==="essential")update(saved);else el.style.display="block";
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
+})();
+</script></body>
 </html>
