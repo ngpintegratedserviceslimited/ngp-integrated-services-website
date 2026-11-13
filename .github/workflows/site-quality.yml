@@ -1,0 +1,48 @@
+name: NGP website quality gate
+
+on:
+  push:
+    branches: [main, "quality/**", "content/**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      site_base_url:
+        description: "Cloudflare preview URL or production URL to smoke-test"
+        required: false
+        default: "https://ngpintegratedservices.com"
+
+permissions:
+  contents: read
+
+jobs:
+  static-quality:
+    name: Static website audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run NGP static-site quality gate
+        run: node scripts/audit-site.mjs
+      - name: Inventory referenced media assets
+        run: node scripts/media-inventory.mjs
+
+  live-smoke:
+    name: Live or preview HTTP smoke test
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      SITE_BASE_URL: ${{ inputs.site_base_url || 'https://ngpintegratedservices.com' }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check routes, ads.txt, sitemap and media responses
+        run: node scripts/smoke-live-site.mjs

@@ -7,9 +7,15 @@ export async function onRequestGet(context) {
     return new Response("Not found", { status: 404 });
   }
 
+  // Prefer the original file packaged with this Pages deployment. This avoids
+  // routing recovered media through the retired InfinityFree host.
+  const localAsset = await context.env.ASSETS.fetch(context.request);
+  if (localAsset.status !== 404) {
+    return localAsset;
+  }
+
+  // Compatibility fallback for the two originals not yet recovered locally.
   const upstream = "https://ngpintegratedservices.infy.uk/media/" + path;
-  // Cache remote legacy media at Cloudflare's edge so repeat visits do not
-  // have to wait for the former hosting provider on every request.
   const response = await fetch(upstream, {
     headers: { "User-Agent": "NGP-Integrated-Services-Media-Proxy/1.0" },
     cf: {
