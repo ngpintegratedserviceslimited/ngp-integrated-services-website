@@ -2,7 +2,7 @@ name: NGP website quality gate
 
 on:
   push:
-    branches: [main, "quality/**", "content/**"]
+    branches: [main, "quality/**", "content/**", "fix/**"]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -30,6 +30,8 @@ jobs:
         run: node scripts/audit-site.mjs
       - name: Inventory referenced media assets
         run: node scripts/media-inventory.mjs
+      - name: Validate Cloudflare Worker and static asset bundle (dry run)
+        run: npx --yes wrangler@4.161.0 deploy --dry-run --outdir /tmp/ngp-worker-dry-run
 
   live-smoke:
     name: Live or preview HTTP smoke test
