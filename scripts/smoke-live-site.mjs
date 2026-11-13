@@ -10,8 +10,8 @@ const expectedAdsRow = "google.com, pub-2745538383126037, DIRECT, f08c47fec0942f
 const failures = [];
 const warnings = [];
 const checkedAssets = new Set();
-async function get(url) {
-  return fetch(url, { redirect: "follow", signal: AbortSignal.timeout(20000), headers: { "User-Agent": "NGP-Site-Smoke-Test/1.0" } });
+async function get(url, method = "GET") {
+  return fetch(url, { method, redirect: "follow", signal: AbortSignal.timeout(20000), headers: { "User-Agent": "NGP-Site-Smoke-Test/1.0" } });
 }
 function log(message) { console.log(message); }
 function fail(message) { failures.push(message); }
@@ -68,6 +68,20 @@ for (const file of ["/robots.txt", "/ads.txt", "/sitemap.xml"]) {
     fail(file + " request failed: " + error.message);
   }
 }
+
+// A missing media URL must be a genuine non-HTML 404, not a legacy-host page.
+try {
+  const missingUrl = new URL("/media/assets/img/__ngp_missing_asset_probe__.jpg", base);
+  const missingResponse = await get(missingUrl);
+  const contentType = missingResponse.headers.get("content-type") || "";
+  log((missingResponse.status === 404 && !contentType.toLowerCase().includes("text/html") ? "PASS " : "FAIL ")
+    + "missing media fallback -> HTTP " + missingResponse.status + " (" + (contentType || "no content-type") + ")");
+  if (missingResponse.status !== 404) fail("Missing media probe did not return HTTP 404.");
+  if (contentType.toLowerCase().includes("text/html")) fail("Missing media probe returned HTML instead of a media 404.");
+} catch (error) {
+  fail("Missing media probe failed: " + error.message);
+}
+
 await Promise.all([...checkedAssets].map(async (url) => {
   try {
     const response = await get(url);
