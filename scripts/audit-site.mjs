@@ -128,15 +128,15 @@ for (const file of htmlFiles) {
     }
     if (h1Count !== 1) warn(`Expected one primary H1 on ${rel}; found ${h1Count}`);
     if (!["privacy-policy.html", "terms.html"].includes(rel)) {
-      const gaConfigCount = (html.match(/gtag\\(\\s*["']config["']\\s*,\\s*["']G-190BLHG93V["']/g) || []).length;
+      const gaConfigCount = (html.match(/gtag\(\s*["']config["']\s*,\s*["']G-190BLHG93V["']/g) || []).length;
       if (gaConfigCount !== 1) fail(`Expected exactly one GA4 config on sitemap page ${rel}; found ${gaConfigCount}`);
       if (!html.includes("ngp-consent") || !html.includes("Reject optional") || !/cookie-(?:accept|reject|essential)/.test(html)) {
         fail(`Missing complete consent-choice controls on sitemap page: ${rel}`);
       }
-      const hasPrimaryNav = /<nav\\b[^>]*id=["']primary-navigation["']/i.test(html);
-      const hasMenuControl = /<button\\b(?=[^>]*aria-controls=["']primary-navigation["'])(?=[^>]*aria-expanded=["']false["'])[^>]*>/i.test(html);
+      const hasPrimaryNav = /<nav\b[^>]*id=["']primary-navigation["']/i.test(html);
+      const hasMenuControl = /<button\b(?=[^>]*aria-controls=["']primary-navigation["'])(?=[^>]*aria-expanded=["']false["'])[^>]*>/i.test(html);
       if (!hasPrimaryNav || !hasMenuControl) fail(`Missing accessible mobile navigation controls on sitemap page: ${rel}`);
-      if (hasMenuControl && !/classList\\.toggle\\(["']mobile-open["']\\)/.test(html)) fail(`Mobile menu does not toggle its navigation panel on ${rel}`);
+      if (hasMenuControl && !/classList\.toggle\(["']mobile-open["']\)/.test(html)) fail(`Mobile menu does not toggle its navigation panel on ${rel}`);
     }
   }
 
