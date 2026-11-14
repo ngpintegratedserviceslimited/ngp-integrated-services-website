@@ -51,8 +51,12 @@ if (!exists("robots.txt")) fail("Missing robots.txt");
 if (!exists("_redirects")) warn("No _redirects file found; verify Cloudflare Pages route handling.");
 if (exists("_redirects")) {
   const redirectRules = read("_redirects").split("\n").map((line) => line.trim()).filter(Boolean);
-  if (redirectRules.some((line) => { const fields = line.split(" ").filter(Boolean); return fields[0]?.endsWith("/") && fields[fields.length - 1] === "200"; })) fail("A trailing-slash route is still internally rewritten with status 200 instead of redirected.");
+  if (redirectRules.some((line) => { const fields = line.split(" ").filter(Boolean); return fields[fields.length - 1] === "200"; })) fail("Workers Static Assets _redirects must not use 200 proxy rewrites for HTML routes; use native drop-trailing-slash handling.");
   if (!redirectRules.some((line) => { const fields = line.split(" ").filter(Boolean); return fields[0]?.endsWith("/") && fields[fields.length - 1] === "301"; })) fail("No explicit permanent trailing-slash redirect rules were found.");
+}
+if (exists("wrangler.jsonc")) {
+  const wrangler = read("wrangler.jsonc");
+  if (!/"html_handling"\s*:\s*"drop-trailing-slash"/.test(wrangler)) fail("Workers Static Assets must use drop-trailing-slash HTML handling for the non-trailing-slash canonical policy.");
 }
 if (exists("functions/_middleware.js")) {
   const middleware = read("functions/_middleware.js");
