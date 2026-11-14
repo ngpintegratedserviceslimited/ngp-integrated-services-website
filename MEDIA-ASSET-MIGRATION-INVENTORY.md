@@ -2,16 +2,6 @@
 **Updated:** 14 November 2026  
 **Repository branch:** `main` (current release base)
 
-## Current disposition — 14 November 2026
-
-This section supersedes the earlier migration notes below wherever they describe the two missing originals or the legacy media fallback.
-
-- **PR #22 is merged** at commit `e0f8a1eada0ba27a0499d7eec11adba915fc2fa9`. The live Projects page contains the five new field-photo references (`field-1.jpg` through `field-5.jpg`), confirming that the PR #22 gallery markup is present in production.
-- The current active page source has no references to `sol2.jpg` or `signvid.mp4`. The names remain only in historical inventory/audit notes.
-- The two unavailable originals are **retired, not replaced**. ICT Digital has no `sol2.jpg` image slot; Projects has no `signvid.mp4` player. The Projects page retains its other gallery photographs and existing VSAT/borehole video cards, so removing these files does not leave empty image or video placeholders.
-- This repair removes the legacy `.infy.uk` media proxy. The Pages Function serves bundled assets only and returns the local asset response (including 404 for missing files); it no longer fetches from the retired host.
-- This is a source-only review PR. No merge, Cloudflare configuration change, or production deployment is performed by this update.
-
 ## Inventory summary
 
 - Current repository base: `main`, commit `e0f8a1eada0ba27a0499d7eec11adba915fc2fa9` (PR #22).
