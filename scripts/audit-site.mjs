@@ -50,22 +50,14 @@ if (!exists("ads.txt")) fail("Missing root ads.txt");
 if (!exists("robots.txt")) fail("Missing robots.txt");
 if (!exists("_redirects")) warn("No _redirects file found; verify Cloudflare Pages route handling.");
 if (exists("_redirects")) {
-  const redirectRules = read("_redirects").split(/\\r?\\n/).map((line) => line.trim()).filter(Boolean);
-  if (redirectRules.some((line) => /\\/$/.test(line.split(/\\s+/)[0]) && /\\s200$/.test(line))) {
-    fail("A trailing-slash route is still internally rewritten with status 200 instead of redirected.");
-  }
-  if (!redirectRules.some((line) => /\\/$/.test(line.split(/\\s+/)[0]) && /\\s301$/.test(line))) {
-    fail("No explicit permanent trailing-slash redirect rules were found.");
-  }
+  const redirectRules = read("_redirects").split("\n").map((line) => line.trim()).filter(Boolean);
+  if (redirectRules.some((line) => { const fields = line.split(" ").filter(Boolean); return fields[0]?.endsWith("/") && fields[fields.length - 1] === "200"; })) fail("A trailing-slash route is still internally rewritten with status 200 instead of redirected.");
+  if (!redirectRules.some((line) => { const fields = line.split(" ").filter(Boolean); return fields[0]?.endsWith("/") && fields[fields.length - 1] === "301"; })) fail("No explicit permanent trailing-slash redirect rules were found.");
 }
 if (exists("functions/_middleware.js")) {
   const middleware = read("functions/_middleware.js");
-  if (!middleware.includes('url.pathname.endsWith("/")') || !middleware.includes('Response.redirect(url.toString(), 301)')) {
-    fail("Cloudflare middleware is missing the global non-trailing-slash canonical redirect.");
-  }
-  if (!middleware.includes('url.pathname.endsWith(".html")') || !middleware.includes('url.pathname.endsWith("/index.html")')) {
-    fail("Cloudflare middleware is missing direct HTML alias canonical redirects.");
-  }
+  if (!middleware.includes('url.pathname.endsWith("/")') || !middleware.includes('Response.redirect(url.toString(), 301)')) fail("Cloudflare middleware is missing the global non-trailing-slash canonical redirect.");
+  if (!middleware.includes('url.pathname.endsWith(".html")') || !middleware.includes('url.pathname.endsWith("/index.html")')) fail("Cloudflare middleware is missing direct HTML alias canonical redirects.");
 }
 if (exists("style.css") && !read("style.css").includes(".nav nav.mobile-open")) {
   fail("Shared stylesheet is missing the mobile navigation panel rules.");
@@ -155,6 +147,7 @@ for (const file of htmlFiles) {
       const hasMenuControl = /<button\b(?=[^>]*aria-controls=["']primary-navigation["'])(?=[^>]*aria-expanded=["']false["'])[^>]*>/i.test(html);
       if (!hasPrimaryNav || !hasMenuControl) fail(`Missing accessible mobile navigation controls on sitemap page: ${rel}`);
       if (hasMenuControl && !/classList\.toggle\(["']mobile-open["']\)/.test(html)) fail(`Mobile menu does not toggle its navigation panel on ${rel}`);
+      if (!html.includes("/assets/js/ngp-enquiry-events.js")) fail("Enquiry event tracking script is not loaded on " + rel);
     }
   }
 
