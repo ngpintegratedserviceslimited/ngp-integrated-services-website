@@ -58,7 +58,7 @@ if (exists("functions/_middleware.js")) {
   const middleware = read("functions/_middleware.js");
   if (!middleware.includes('url.pathname.endsWith("/")') || !middleware.includes('Response.redirect(url.toString(), 301)')) fail("Cloudflare middleware is missing the global non-trailing-slash canonical redirect.");
   if (!middleware.includes('url.pathname.endsWith(".html")')) fail("Cloudflare middleware is missing direct legacy HTML alias canonical redirects.");
-  if (middleware.includes('url.pathname.endsWith("/index.html")')) fail("Middleware must not redirect internal directory index rewrites, which can create a redirect loop.");
+  if (!middleware.includes('!url.pathname.endsWith("/index.html")')) fail("Middleware must exclude internal directory index.html rewrites from legacy HTML redirects.");
 }
 if (exists("style.css") && !read("style.css").includes(".nav nav.mobile-open")) {
   fail("Shared stylesheet is missing the mobile navigation panel rules.");
