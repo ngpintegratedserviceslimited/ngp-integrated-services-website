@@ -8,7 +8,7 @@
   }
   function send(eventName, parameters) {
     if (!hasAnalyticsConsent() || typeof window.gtag !== "function") return;
-    window.gtag("event", eventName, Object.assign({ event_category: "enquiry", page_path: window.location.pathname }, parameters || {}));
+    window.gtag("event", eventName, Object.assign({ event_category: "enquiry", page_path: window.location.pathname, transport_type: "beacon" }, parameters || {}));
   }
   document.addEventListener("click", function (event) {
     var link = event.target && event.target.closest ? event.target.closest("a[href]") : null;
