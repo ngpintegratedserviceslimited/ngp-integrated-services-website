@@ -1,18 +1,16 @@
 # NGP Media Asset Migration Inventory
-**Updated:** 12 November 2026  
-**Repository branch:** `quality/website-audit-gates-2026-11`
+**Updated:** 14 November 2026  
+**Repository branch:** `main` (current release base)
 
 ## Inventory summary
-- After the 14 signage-image path corrections, the latest GitHub Actions inventory reports **31 unique `/media/` paths** and **80 references** across repository HTML, JavaScript and CSS. The Pages Function now checks the bundled local asset first and only contacts the legacy host when a file is absent locally.
-- The static HTML quality gate reports **74 direct `/media/` references**. These now resolve through a local-first Pages asset route; only the two unavailable originals (`sol2.jpg` and `signvid.mp4`) should need the legacy fallback.
-- The production audit tested 18 homepage-referenced media URLs; all 18 returned HTTP 404. The official logo at `/assets/img/logo.png` returned HTTP 200.
-- The company has now supplied two restoration archives in ChatGPT. The larger archive, `ngp-site-assets-restoration.zip`, contains **29 recovered originals: 24 JPEG images and 5 MP4 videos**, preserving the repository's expected directory structure.
-- The recovered archive was validated: all 24 JPEGs decoded successfully and all 5 MP4s exposed valid H.264 video streams via ffprobe.
-- **Repository verification (12 November 2026):** all 29 recovered asset files are present in both `main` and `quality/website-audit-gates-2026-11`. Their Git blob SHAs and file sizes match across the two branches. This confirms repository storage; it does not establish that the current production deployment serves them.
-- No separate media-upload commit was identified; the recovered archive files are confirmed present in both branches. Subsequent repair-branch commits correct media references and update this inventory.
-- **15 of the 17 filenames omitted from the supplied archive were found in the repository's root `img/` directory.** References were migrated to `/img/<filename>` in the affected pages. The static audit and media inventory are the authoritative current counts; a few `/media/` references remain to be reconciled individually.
-- Two assets remain unavailable in the repository: `sol2.jpg` and `signvid.mp4`.
-- **Important:** no production media URL has yet been verified as repaired. Production delivery, Cloudflare routing/cache behavior, and the preview/live smoke test remain outstanding.
+
+- Current repository base: `main`, commit `e0f8a1eada0ba27a0499d7eec11adba915fc2fa9` (PR #22).
+- The live Projects page contains the five field-photo references added by PR #22 (`field-1.jpg` through `field-5.jpg`). This confirms the PR #22 gallery markup is present in production.
+- A current active-source search found no page/code references to `sol2.jpg` or `signvid.mp4`. Their remaining mentions in this file and the dated live audit are historical records only.
+- The two unavailable originals are retired, not replaced with stock media. ICT Digital has no `sol2.jpg` image slot; Projects has no `signvid.mp4` player. Existing Projects gallery photos and its other video cards remain in place, so the retired assets do not leave blank image or video slots.
+- PR #23 removes the legacy `.infy.uk` media proxy. The Pages Function serves packaged assets only and passes through the local asset response, including a genuine 404 for a missing file.
+- This PR is source-only. No merge, Cloudflare configuration change, or production deployment is performed here.
+
 
 ## Recovered original assets
 
@@ -48,12 +46,13 @@
 | `media/signageassets/img/doortags.jpg` | JPEG 4160×3120 | Decodes |
 | `media/signageassets/img/vet.jpg` | JPEG 4160×3120 | Decodes |
 
-## Original assets still unavailable
+## Retired originals
 
-- `sol2.jpg` — five remaining references use `/media/assets/img/sol2.jpg`; do not replace with unrelated stock imagery.
-- `signvid.mp4` — one remaining reference uses `/media/signageassets/img/signvid.mp4`; do not substitute another video.
+- `sol2.jpg` — unavailable and intentionally retired; no active page references remain.
+- `signvid.mp4` — unavailable and intentionally retired; no active page references remain.
 
-The other 15 filenames from the earlier archive-missing list were located in the repository's root `img/` directory and their page references were migrated to `/img/`. The static audit counts 74 HTML references routed through `/media/`. The Pages Function now serves matching repository assets first via the Pages `ASSETS` binding; only missing originals use the legacy-host fallback. Production delivery still requires a post-deployment HTTP check.
+Neither file is replaced with unrelated imagery or video.
+
 
 ## Full repository asset register
 
@@ -77,7 +76,6 @@ The other 15 filenames from the earlier archive-missing list were located in the
 | /media/assets/img/panel.jpg | 10 | ict-digital/index.html, index.html, integrated-projects/index.html, projects.html, smart-security/index.html |
 | /media/assets/img/Rovers.jpg | 1 | projects.html |
 | /media/assets/img/sat.jpg | 1 | projects.html |
-| /media/assets/img/sol2.jpg | 5 | ict-digital/index.html, index.html, projects.html |
 | /media/assets/img/vsat4.jpg | 4 | ict-digital/index.html, index.html |
 | /media/assets/img/vsat5.jpg | 3 | index.html, projects.html |
 | /media/assets/img/vsat6.jpg | 1 | projects.html |
@@ -88,7 +86,6 @@ The other 15 filenames from the earlier archive-missing list were located in the
 | /media/assets/img/vsatv2.mp4 | 1 | projects.html |
 | /media/assets/img/yaks.jpg | 1 | projects.html |
 | /media/signageassets/img/doortags.jpg | 1 | projects.html |
-| /media/signageassets/img/signvid.mp4 | 1 | projects.html |
 | /media/signageassets/img/vet.jpg | 1 | projects.html |
 
 ## Recovered signage image path correction
@@ -100,18 +97,20 @@ On 12 November 2026, 15 files matching the previously missing signage/printing f
 On 12 November 2026, the three homepage video links in `index.html` were corrected to point to the verified recovered originals under `/media/assets/img/`: `bv2.mp4`, `bv3.mp4` and `bv5.mp4`. The original recovered files remain unchanged. This source correction is committed on the repair branch; live/preview HTTP delivery still requires verification.
 
 ## Migration handling and release gates
-1. Recover the original images and videos at their original resolution and quality. Do not substitute unrelated stock images for genuine NGP project evidence.
-2. Confirm each file is authorised for public use and that captions accurately describe the activity shown.
-3. Store assets in a production-managed location with stable URLs, appropriate cache headers and a backup copy.
-4. Preserve file names and directory paths, or update every reference consistently in a single controlled change.
-5. Test each asset by HTTP status, content type, dimensions/duration and visual inspection/playback.
-6. Check image alternative text and video captions/transcripts where applicable.
-7. Remove the legacy media proxy only after every referenced asset is accounted for, direct and proxy URLs have been verified, and no page references the old origin.
-8. Re-run the static quality gate and preview/live HTTP smoke test. Do not describe this archive receipt as a successful production migration.
+
+1. Keep the existing NGP design, page structure and remaining working media unchanged.
+2. Serve media from the repository's bundled Pages assets; do not proxy missing files to the retired InfinityFree host.
+3. Confirm that each referenced local asset returns the expected status and content type.
+4. Keep intentionally retired assets out of page markup and gallery/player components.
+5. Run the repository static quality gate and inspect the PR preview before merge.
+6. After an authorised merge/deployment, recheck the production media URLs and page layout. This PR itself does not deploy.
+
 
 ## Outstanding owner-side evidence
-- The two unavailable original assets: `sol2.jpg` and `signvid.mp4`.
-- Cloudflare Pages/R2 or other approved production storage access to publish the recovered files.
-- Preview URL and post-upload access to verify all asset responses.
+
+- No original file is required for `sol2.jpg` or `signvid.mp4`; both have been retired from active page references.
+- Production deployment and post-deployment HTTP checks remain a separate release step requiring approval.
+
+
 
 No credentials should be uploaded with the media archive.

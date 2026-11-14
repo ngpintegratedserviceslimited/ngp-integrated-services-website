@@ -7,37 +7,7 @@ export async function onRequestGet(context) {
     return new Response("Not found", { status: 404 });
   }
 
-  // Prefer the original file packaged with this Pages deployment. This avoids
-  // routing recovered media through the retired InfinityFree host.
-  const localAsset = await context.env.ASSETS.fetch(context.request);
-  if (localAsset.status !== 404) {
-    return localAsset;
-  }
-
-  // Compatibility fallback for the two originals not yet recovered locally.
-  const upstream = "https://ngpintegratedservices.infy.uk/media/" + path;
-  const response = await fetch(upstream, {
-    headers: { "User-Agent": "NGP-Integrated-Services-Media-Proxy/1.0" },
-    cf: {
-      cacheEverything: true,
-      cacheTtlByStatus: {
-        "200-299": 604800,
-        "404": 60,
-        "500-599": 0
-      }
-    }
-  });
-
-  if (!response.ok) {
-    return new Response("Media unavailable", { status: response.status });
-  }
-
-  const headers = new Headers(response.headers);
-  headers.set("Cache-Control", "public, max-age=86400, s-maxage=604800");
-  headers.set("Access-Control-Allow-Origin", "*");
-
-  return new Response(response.body, {
-    status: response.status,
-    headers
-  });
+  // Serve only files packaged with this Pages deployment. Missing media stays
+  // a genuine 404; do not proxy requests to the retired InfinityFree site.
+  return context.env.ASSETS.fetch(context.request);
 }
