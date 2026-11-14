@@ -49,6 +49,24 @@ if (!exists(sitemapPath)) fail("Missing sitemap.xml");
 if (!exists("ads.txt")) fail("Missing root ads.txt");
 if (!exists("robots.txt")) fail("Missing robots.txt");
 if (!exists("_redirects")) warn("No _redirects file found; verify Cloudflare Pages route handling.");
+if (exists("_redirects")) {
+  const redirectRules = read("_redirects").split(/\\r?\\n/).map((line) => line.trim()).filter(Boolean);
+  if (redirectRules.some((line) => /\\/$/.test(line.split(/\\s+/)[0]) && /\\s200$/.test(line))) {
+    fail("A trailing-slash route is still internally rewritten with status 200 instead of redirected.");
+  }
+  if (!redirectRules.some((line) => /\\/$/.test(line.split(/\\s+/)[0]) && /\\s301$/.test(line))) {
+    fail("No explicit permanent trailing-slash redirect rules were found.");
+  }
+}
+if (exists("functions/_middleware.js")) {
+  const middleware = read("functions/_middleware.js");
+  if (!middleware.includes('url.pathname.endsWith("/")') || !middleware.includes('Response.redirect(url.toString(), 301)')) {
+    fail("Cloudflare middleware is missing the global non-trailing-slash canonical redirect.");
+  }
+  if (!middleware.includes('url.pathname.endsWith(".html")') || !middleware.includes('url.pathname.endsWith("/index.html")')) {
+    fail("Cloudflare middleware is missing direct HTML alias canonical redirects.");
+  }
+}
 if (exists("style.css") && !read("style.css").includes(".nav nav.mobile-open")) {
   fail("Shared stylesheet is missing the mobile navigation panel rules.");
 }
@@ -165,6 +183,19 @@ for (const file of htmlFiles) {
       internalLinkFailures++;
       warn(`Local route reference has no matching source file: ${rel} -> ${value}`);
     }
+  }
+}
+if (exists("assets/js/ngp-enquiry-events.js")) {
+  const eventScript = read("assets/js/ngp-enquiry-events.js");
+  for (const eventName of ["whatsapp_click", "phone_click", "contact_form_submit"]) {
+    if (!eventScript.includes(eventName)) fail(`Missing enquiry tracking event: ${eventName}`);
+  }
+} else fail("Missing assets/js/ngp-enquiry-events.js enquiry tracking implementation.");
+if (exists("index.html")) {
+  const home = read("index.html");
+  if (!/name=["']viewport["'][^>]*content=["'][^"']*width=device-width/i.test(home)) fail("Homepage is missing its responsive viewport declaration.");
+  if (!home.includes("cookie-accept") || !home.includes("cookie-reject") || !home.includes("float-call") || !home.includes("float-wa")) {
+    fail("Homepage is missing mobile cookie controls or floating enquiry links.");
   }
 }
 if (!gaOccurrences) warn("No GA4 measurement ID found in HTML; confirm whether analytics is intentionally disabled.");
