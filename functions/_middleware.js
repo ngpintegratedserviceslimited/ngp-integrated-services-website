@@ -26,8 +26,20 @@ export async function onRequest(context) {
     });
   }
 
-  // Canonicalise directory-style routes before static asset resolution.
-  // The root URL remains "/", and query strings are preserved by URL.
+  // Canonicalise direct file aliases and directory-style routes before
+  // static asset resolution. Keep the root URL as "/" and preserve queries.
+  if (url.pathname === "/index.html") {
+    url.pathname = "/";
+    return Response.redirect(url.toString(), 301);
+  }
+  if (url.pathname.endsWith("/index.html")) {
+    url.pathname = url.pathname.slice(0, -"/index.html".length) || "/";
+    return Response.redirect(url.toString(), 301);
+  }
+  if (url.pathname !== "/404.html" && url.pathname.endsWith(".html")) {
+    url.pathname = url.pathname.slice(0, -".html".length) || "/";
+    return Response.redirect(url.toString(), 301);
+  }
   if (url.pathname.length > 1 && url.pathname.endsWith("/")) {
     url.pathname = url.pathname.replace(/\/+$/, "");
     return Response.redirect(url.toString(), 301);
