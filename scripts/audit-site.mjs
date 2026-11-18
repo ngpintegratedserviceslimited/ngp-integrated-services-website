@@ -133,20 +133,20 @@ for (const file of htmlFiles) {
     || html.match(/<meta\b[^>]*\bname='description'[^>]*\bcontent='([^']*)'/i)?.[1];
   const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
   const h1Count = (html.match(/<h1\b/gi) || []).length;
-  const jsonLdBlocks = [...html.matchAll(/<script[^>]*type=["']application\\/ld\\+json["'][^>]*>([\\s\\S]*?)<\\/script>/gi)];
+  const jsonLdBlocks = [...html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
   for (const block of jsonLdBlocks) {
     try { JSON.parse(block[1]); }
     catch { fail("Malformed JSON-LD structured data in " + rel); }
   }
-  if (isSitemapPage && !jsonLdBlocks.length) fail("Sitemap page has no JSON-LD structured data: " + rel);
   if (/href=["'][^"']+\\.html(?:[?#][^"']*)?["']/i.test(html) && rel !== "404.html") {
     warn("Legacy .html internal link found in " + rel + "; use the clean canonical route instead.");
-  }
+  if (/href=["'][^"']+\.html(?:[?#][^"']*)?["']/i.test(html) && rel !== "404.html") {
 
   const isSitemapPage = sitemapUrls.some((u) => {
     const p = new URL(u).pathname;
     return routeCandidates(p).includes(rel);
   });
+  if (isSitemapPage && !jsonLdBlocks.length) fail("Sitemap page has no JSON-LD structured data: " + rel);
   if (isSitemapPage) {
     if (!title) fail(`Sitemap page has no title: ${rel}`);
     if (!description || description.length < 50) warn(`Sitemap page has missing/short meta description: ${rel}`);
