@@ -8,7 +8,7 @@
     "directory": "./",
     "binding": "ASSETS",
     "html_handling": "drop-trailing-slash",
-    "run_worker_first": ["/media/*"],
+    "run_worker_first": true,
     "not_found_handling": "404-page"
   }
 }
