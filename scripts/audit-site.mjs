@@ -138,15 +138,13 @@ for (const file of htmlFiles) {
     try { JSON.parse(block[1]); }
     catch { fail("Malformed JSON-LD structured data in " + rel); }
   }
-  if (/href=["'][^"']+\\.html(?:[?#][^"']*)?["']/i.test(html) && rel !== "404.html") {
-    warn("Legacy .html internal link found in " + rel + "; use the clean canonical route instead.");
-  if (/href=["'][^"']+\.html(?:[?#][^"']*)?["']/i.test(html) && rel !== "404.html") {
 
   const isSitemapPage = sitemapUrls.some((u) => {
     const p = new URL(u).pathname;
     return routeCandidates(p).includes(rel);
   });
   if (isSitemapPage && !jsonLdBlocks.length) fail("Sitemap page has no JSON-LD structured data: " + rel);
+  if (/href=["'][^"']+\.html(?:[?#][^"']*)?["']/i.test(html) && rel !== "404.html") warn("Legacy .html internal link found in " + rel + "; use the clean canonical route instead.");
   if (isSitemapPage) {
     if (!title) fail(`Sitemap page has no title: ${rel}`);
     if (!description || description.length < 50) warn(`Sitemap page has missing/short meta description: ${rel}`);
