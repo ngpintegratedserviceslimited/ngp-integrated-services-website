@@ -10,7 +10,7 @@ export default {
       url.protocol = "https:";
       if (hostname === "www.ngpintegratedservices.com") url.hostname = "ngpintegratedservices.com";
       if (url.pathname.length > 1 && url.pathname.endsWith("/")) {
-        url.pathname = url.pathname.replace(/\\/+$/, "");
+        url.pathname = url.pathname.replace(/\/+$/, "");
       }
       return Response.redirect(url.toString(), 301);
     }
@@ -23,7 +23,7 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
     if (url.pathname.length > 1 && url.pathname.endsWith("/")) {
-      url.pathname = url.pathname.replace(/\\/+$/, "");
+      url.pathname = url.pathname.replace(/\/+$/, "");
       return Response.redirect(url.toString(), 301);
     }
 
