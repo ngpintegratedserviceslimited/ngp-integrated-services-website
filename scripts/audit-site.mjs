@@ -58,6 +58,11 @@ if (exists("wrangler.jsonc")) {
   const wrangler = read("wrangler.jsonc");
   if (!/"html_handling"\s*:\s*"drop-trailing-slash"/.test(wrangler)) fail("Workers Static Assets must use drop-trailing-slash HTML handling for the non-trailing-slash canonical policy.");
 }
+if (exists("worker/index.js")) {
+  const worker = read("worker/index.js");
+  if (!worker.includes('hostname === "www.ngpintegratedservices.com"') || !worker.includes("Response.redirect(url.toString(), 301)")) fail("Production Worker is missing the apex-host permanent redirect.");
+  if (!worker.includes('url.protocol !== "https:"')) fail("Production Worker is missing the HTTPS canonical redirect.");
+}
 if (exists("functions/_middleware.js")) {
   const middleware = read("functions/_middleware.js");
   if (!middleware.includes('url.pathname.endsWith("/")') || !middleware.includes('Response.redirect(url.toString(), 301)')) fail("Cloudflare middleware is missing the global non-trailing-slash canonical redirect.");
@@ -128,11 +133,18 @@ for (const file of htmlFiles) {
     || html.match(/<meta\b[^>]*\bname='description'[^>]*\bcontent='([^']*)'/i)?.[1];
   const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
   const h1Count = (html.match(/<h1\b/gi) || []).length;
+  const jsonLdBlocks = [...html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  for (const block of jsonLdBlocks) {
+    try { JSON.parse(block[1]); }
+    catch { fail("Malformed JSON-LD structured data in " + rel); }
+  }
 
   const isSitemapPage = sitemapUrls.some((u) => {
     const p = new URL(u).pathname;
     return routeCandidates(p).includes(rel);
   });
+  if (isSitemapPage && !jsonLdBlocks.length) fail("Sitemap page has no JSON-LD structured data: " + rel);
+  if (/href=["'][^"']+\.html(?:[?#][^"']*)?["']/i.test(html) && rel !== "404.html") warn("Legacy .html internal link found in " + rel + "; use the clean canonical route instead.");
   if (isSitemapPage) {
     if (!title) fail(`Sitemap page has no title: ${rel}`);
     if (!description || description.length < 50) warn(`Sitemap page has missing/short meta description: ${rel}`);
