@@ -121,7 +121,7 @@ try {
   const scriptResponse = await request(new URL("/assets/js/ngp-enquiry-events.js", base));
   if (!scriptResponse.ok) fail("Enquiry event script returned HTTP " + scriptResponse.status);
   const script = await scriptResponse.text();
-  for (const eventName of ["whatsapp_click", "phone_click", "contact_form_submit"]) {
+  for (const eventName of ["whatsapp_click", "phone_click", "generate_lead"]) {
     if (!script.includes(eventName)) fail("Enquiry tracking event is missing: " + eventName);
   }
 } catch (error) { fail("Could not retrieve enquiry event script: " + error.message); }
