@@ -33,6 +33,7 @@ export default {
       const path = url.pathname.slice("/media/".length);
       const allowed =
         path.startsWith("assets/img/") ||
+        path.startsWith("illustrations/") ||
         path.startsWith("makantoassets/img/") ||
         path.startsWith("signageassets/img/");
 
