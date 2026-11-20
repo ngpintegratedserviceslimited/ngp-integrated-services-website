@@ -197,7 +197,7 @@ for (const file of htmlFiles) {
 }
 if (exists("assets/js/ngp-enquiry-events.js")) {
   const eventScript = read("assets/js/ngp-enquiry-events.js");
-  for (const eventName of ["whatsapp_click", "phone_click", "contact_form_submit"]) {
+  for (const eventName of ["whatsapp_click", "phone_click", "generate_lead"]) {
     if (!eventScript.includes(eventName)) fail(`Missing enquiry tracking event: ${eventName}`);
   }
 } else fail("Missing assets/js/ngp-enquiry-events.js enquiry tracking implementation.");
