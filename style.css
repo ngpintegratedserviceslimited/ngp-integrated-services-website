@@ -27,3 +27,7 @@
   .nav .menu:focus-visible,
   .nav nav.mobile-open a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 }
+
+
+/* NGP photo presentation: preserve complete original photographs instead of cropping important details. */
+.ngp-media-card img, figure.card img, .about-box img { object-fit: contain !important; object-position: center center; background: #f5f7fb; }
