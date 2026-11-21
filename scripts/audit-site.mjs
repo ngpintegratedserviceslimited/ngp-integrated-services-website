@@ -133,6 +133,20 @@ for (const file of htmlFiles) {
     || html.match(/<meta\b[^>]*\bname='description'[^>]*\bcontent='([^']*)'/i)?.[1];
   const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
   const h1Count = (html.match(/<h1\b/gi) || []).length;
+  const headingLevels = [...html.matchAll(/<h([1-6])\b/gi)].map((m) => Number(m[1]));
+  for (let i = 1; i < headingLevels.length; i++) {
+    if (headingLevels[i] > headingLevels[i - 1] + 1) {
+      fail(`Heading hierarchy skips from H${headingLevels[i - 1]} to H${headingLevels[i]} in ${rel}`);
+      break;
+    }
+  }
+  if (["index.html", "projects.html", "printing-signage/index.html"].includes(rel)) {
+    for (const imageTag of html.matchAll(/<img\b[^>]*>/gi)) {
+      if (!/\bwidth=["']\d+["']/i.test(imageTag[0]) || !/\bheight=["']\d+["']/i.test(imageTag[0])) {
+        fail(`Image is missing verified width/height attributes in ${rel}: ${imageTag[0].slice(0, 180)}`);
+      }
+    }
+  }
   const jsonLdBlocks = [...html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
   for (const block of jsonLdBlocks) {
     try { JSON.parse(block[1]); }
@@ -195,6 +209,22 @@ for (const file of htmlFiles) {
     }
   }
 }
+if (exists("_headers")) {
+  const headers = read("_headers");
+  for (const rule of ["/assets/*", "/media/*", "/img/*", "/style.css"]) {
+    if (!headers.includes(rule) || !headers.includes("Cache-Control: public, max-age=86400")) {
+      fail(`Missing conservative static cache rule for ${rule}`);
+    }
+  }
+} else fail("Missing _headers static-asset cache policy.");
+
+if (exists("index.html")) {
+  const home = read("index.html");
+  if (!home.includes('"sameAs":["https://www.youtube.com/@NGPINTEGRATEDSERVICESLIMITED"]')) {
+    fail("Homepage LocalBusiness schema is missing the verified official YouTube profile in sameAs.");
+  }
+}
+
 if (exists("assets/js/ngp-enquiry-events.js")) {
   const eventScript = read("assets/js/ngp-enquiry-events.js");
   for (const eventName of ["whatsapp_click", "phone_click", "generate_lead"]) {
