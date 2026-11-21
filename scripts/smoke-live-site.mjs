@@ -112,19 +112,24 @@ for (const file of ["/robots.txt", "/ads.txt", "/sitemap.xml"]) {
     if (!/id=["']primary-navigation["']/.test(homepage) || !/aria-controls=["']primary-navigation["']/.test(homepage) || !/aria-expanded=["']false["']/.test(homepage)) fail("Homepage mobile navigation controls are incomplete.");
     if (!/cookie-banner/.test(homepage) || !/cookie-accept/.test(homepage) || !/cookie-reject/.test(homepage)) fail("Homepage cookie accept/reject controls are incomplete.");
     if (!/float-call/.test(homepage) || !/float-wa/.test(homepage)) fail("Homepage floating telephone/WhatsApp enquiry links are missing.");
-    if (!homepage.includes(gaId) || !homepage.includes("ngp-enquiry-events.js")) fail("Homepage GA4/enquiry tracking bootstrap is missing.");
-    if (!contact.includes("ngp-contact-form") || !contact.includes("ngp-enquiry-events.js")) fail("Contact form tracking hook is missing.");
+    if (!homepage.includes(gaId) || !homepage.includes("ngp-enquiry-events.min.js")) fail("Homepage GA4/minified enquiry tracking bootstrap is missing.");
+    const homeImages = [...homepage.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
+    if (!homeImages.length) fail("Homepage contains no image elements.");
+    for (const imageTag of homeImages) {
+      if (!/\bwidth=["']\d+["']/i.test(imageTag) || !/\bheight=["']\d+["']/i.test(imageTag)) fail("Production homepage image is missing intrinsic width/height attributes: " + imageTag.slice(0, 180));
+    }
+    if (!contact.includes("ngp-contact-form") || !contact.includes("ngp-enquiry-events.min.js")) fail("Contact form minified tracking hook is missing.");
   } catch (error) { fail(file + " request failed: " + error.message); }
 }
 
 try {
-  const scriptResponse = await request(new URL("/assets/js/ngp-enquiry-events.js", base));
+  const scriptResponse = await request(new URL("/assets/js/ngp-enquiry-events.min.js", base));
   if (!scriptResponse.ok) fail("Enquiry event script returned HTTP " + scriptResponse.status);
   const script = await scriptResponse.text();
   for (const eventName of ["whatsapp_click", "phone_click", "generate_lead"]) {
     if (!script.includes(eventName)) fail("Enquiry tracking event is missing: " + eventName);
   }
-} catch (error) { fail("Could not retrieve enquiry event script: " + error.message); }
+} catch (error) { fail("Could not retrieve minified enquiry event script: " + error.message); }
 
 await Promise.all([...mediaAssets.entries()].map(async ([url, item]) => {
   try {

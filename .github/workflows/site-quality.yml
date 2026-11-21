@@ -28,6 +28,8 @@ jobs:
           node-version: 22
       - name: Run NGP static-site quality gate
         run: node scripts/audit-site.mjs
+      - name: Verify readable and minified enquiry tracking behave identically
+        run: node scripts/test-enquiry-events.mjs
       - name: Inventory referenced media assets
         run: node scripts/media-inventory.mjs
       - name: Validate Cloudflare Worker and static asset bundle (dry run)

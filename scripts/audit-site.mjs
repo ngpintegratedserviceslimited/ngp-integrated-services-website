@@ -42,6 +42,40 @@ function canonicalFor(urlPath) {
   return urlPath === "/" ? `${DOMAIN}/` : `${DOMAIN}${urlPath.replace(/\/+$/, "")}`;
 }
 
+
+function imageDimensions(file) {
+  const bytes = fs.readFileSync(path.join(ROOT, file));
+  if (bytes.length >= 24 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47) return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
+  if (bytes.length >= 4 && bytes[0] === 0xff && bytes[1] === 0xd8) {
+    let offset = 2;
+    while (offset < bytes.length) {
+      if (bytes[offset++] !== 0xff) continue;
+      const marker = bytes[offset++];
+      if (marker === 0xd9 || marker === 0xda) break;
+      const length = bytes.readUInt16BE(offset);
+      if ([0xc0,0xc1,0xc2,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd,0xce,0xcf].includes(marker)) return { height: bytes.readUInt16BE(offset + 3), width: bytes.readUInt16BE(offset + 5) };
+      offset += length;
+    }
+  }
+  if (file.endsWith(".svg")) {
+    const svg = bytes.toString("utf8", 0, Math.min(bytes.length, 2048));
+    const width = Number(svg.match(/<svg\b[^>]*\bwidth=["'](\d+)/i)?.[1]);
+    const height = Number(svg.match(/<svg\b[^>]*\bheight=["'](\d+)/i)?.[1]);
+    if (width && height) return { width, height };
+  }
+  return null;
+}
+function localAssetPath(src, htmlFile) {
+  let pathname = src.split(/[?#]/)[0];
+  if (/^https?:\/\//i.test(pathname)) {
+    const parsed = new URL(pathname);
+    if (parsed.origin !== DOMAIN) return null;
+    pathname = parsed.pathname;
+  }
+  if (pathname.startsWith("/")) return pathname.replace(/^\/+/, "");
+  return path.posix.normalize(path.posix.join(path.posix.dirname(htmlFile), pathname));
+}
+
 const htmlFiles = walk(ROOT).filter((p) => p.endsWith(".html"));
 const allTextFiles = walk(ROOT);
 const sitemapPath = "sitemap.xml";
@@ -142,17 +176,37 @@ for (const file of htmlFiles) {
   }
   if (["index.html", "projects.html", "printing-signage/index.html"].includes(rel)) {
     for (const imageTag of html.matchAll(/<img\b[^>]*>/gi)) {
-      if (!/\bwidth=["']\d+["']/i.test(imageTag[0]) || !/\bheight=["']\d+["']/i.test(imageTag[0])) {
-        fail(`Image is missing verified width/height attributes in ${rel}: ${imageTag[0].slice(0, 180)}`);
-      }
+      const tag = imageTag[0];
+      const width = Number(tag.match(/\bwidth=["'](\d+)["']/i)?.[1]);
+      const height = Number(tag.match(/\bheight=["'](\d+)["']/i)?.[1]);
+      const src = tag.match(/\bsrc=["']([^"']+)["']/i)?.[1];
+      if (!width || !height) { fail("Image is missing width/height attributes in " + rel + ": " + tag.slice(0, 180)); continue; }
+      if (!src) { fail("Image has no src attribute in " + rel + ": " + tag.slice(0, 180)); continue; }
+      const asset = localAssetPath(src, rel);
+      if (!asset || !exists(asset)) { fail("Cannot verify local image dimensions in " + rel + ": " + src); continue; }
+      const actual = imageDimensions(asset);
+      if (actual && (width !== actual.width || height !== actual.height)) fail("Image dimensions do not match actual file in " + rel + ": " + src + " declares " + width + "x" + height + ", file is " + actual.width + "x" + actual.height);
+      else if (!actual) fail("Image format dimensions could not be verified in " + rel + ": " + src);
     }
   }
   const jsonLdBlocks = [...html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  const parsedSchemas = [];
   for (const block of jsonLdBlocks) {
-    try { JSON.parse(block[1]); }
+    try { parsedSchemas.push(JSON.parse(block[1])); }
     catch { fail("Malformed JSON-LD structured data in " + rel); }
   }
-
+  if (rel.startsWith("knowledge-centre/") && rel !== "knowledge-centre/index.html" && rel.endsWith("/index.html")) {
+    const article = parsedSchemas.find((item) => item["@type"] === "Article");
+    if (!article?.image || typeof article.image !== "string") fail("Knowledge Centre Article schema is missing a representative image URL: " + rel);
+    else {
+      const asset = localAssetPath(article.image, rel);
+      if (!asset || !exists(asset)) fail("Knowledge Centre Article schema image is not bundled locally: " + rel + " -> " + article.image);
+      const visibleSrc = article.image.replace(DOMAIN, "");
+      const imageTag = [...html.matchAll(/<img\b[^>]*>/gi)].map((m) => m[0]).find((tag) => tag.includes(visibleSrc));
+      if (!imageTag) fail("Knowledge Centre Article schema image is not displayed on the page: " + rel);
+      else if (!/\bwidth=["']1200["']/i.test(imageTag) || !/\bheight=["']675["']/i.test(imageTag) || !/\balt=["'][^"']+["']/i.test(imageTag)) fail("Knowledge Centre article image needs 1200x675 dimensions and descriptive alt text: " + rel);
+    }
+  }
   const isSitemapPage = sitemapUrls.some((u) => {
     const p = new URL(u).pathname;
     return routeCandidates(p).includes(rel);
@@ -178,7 +232,7 @@ for (const file of htmlFiles) {
       const hasMenuControl = /<button\b(?=[^>]*aria-controls=["']primary-navigation["'])(?=[^>]*aria-expanded=["']false["'])[^>]*>/i.test(html);
       if (!hasPrimaryNav || !hasMenuControl) fail(`Missing accessible mobile navigation controls on sitemap page: ${rel}`);
       if (hasMenuControl && !/classList\.toggle\(["']mobile-open["']\)/.test(html)) fail(`Mobile menu does not toggle its navigation panel on ${rel}`);
-      if (!html.includes("/assets/js/ngp-enquiry-events.js")) fail("Enquiry event tracking script is not loaded on " + rel);
+      if (!html.includes("/assets/js/ngp-enquiry-events.min.js")) fail("Minified enquiry event tracking script is not loaded on " + rel);
     }
   }
 
@@ -220,17 +274,22 @@ if (exists("_headers")) {
 
 if (exists("index.html")) {
   const home = read("index.html");
-  if (!home.includes('"sameAs":["https://www.youtube.com/@NGPINTEGRATEDSERVICESLIMITED"]')) {
-    fail("Homepage LocalBusiness schema is missing the verified official YouTube profile in sameAs.");
-  }
+  if (!home.includes('"sameAs":["https://www.youtube.com/@NGPINTEGRATEDSERVICESLIMITED"]')) fail("Homepage LocalBusiness schema is missing the verified official YouTube profile in sameAs.");
+  const organization = [...home.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)]
+    .map((match) => { try { return JSON.parse(match[1]); } catch { return null; } })
+    .find((item) => item?.["@type"] === "Organization");
+  if (!organization || !organization.sameAs?.includes("https://www.youtube.com/@NGPINTEGRATEDSERVICESLIMITED") || !organization.logo || !organization.url) fail("Homepage Organization schema must include its verified official profile, logo and canonical URL.");
 }
 
-if (exists("assets/js/ngp-enquiry-events.js")) {
+if (exists("assets/js/ngp-enquiry-events.js") && exists("assets/js/ngp-enquiry-events.min.js")) {
   const eventScript = read("assets/js/ngp-enquiry-events.js");
+  const minifiedScript = read("assets/js/ngp-enquiry-events.min.js").trim();
   for (const eventName of ["whatsapp_click", "phone_click", "generate_lead"]) {
-    if (!eventScript.includes(eventName)) fail(`Missing enquiry tracking event: ${eventName}`);
+    if (!eventScript.includes(eventName) || !minifiedScript.includes(eventName)) fail("Missing enquiry tracking event in source or minified script: " + eventName);
   }
-} else fail("Missing assets/js/ngp-enquiry-events.js enquiry tracking implementation.");
+  if (minifiedScript.includes("\n")) fail("Minified enquiry event script should be a single line.");
+} else fail("Missing readable source or minified assets/js/ngp-enquiry-events script.");
+
 if (exists("index.html")) {
   const home = read("index.html");
   if (!/name=["']viewport["'][^>]*content=["'][^"']*width=device-width/i.test(home)) fail("Homepage is missing its responsive viewport declaration.");
