@@ -195,7 +195,7 @@ for (const file of htmlFiles) {
     try { parsedSchemas.push(JSON.parse(block[1])); }
     catch { fail("Malformed JSON-LD structured data in " + rel); }
   }
-  if (rel.startsWith("knowledge-centre/") && rel.endsWith("/index.html")) {
+  if (rel.startsWith("knowledge-centre/") && rel !== "knowledge-centre/index.html" && rel.endsWith("/index.html")) {
     const article = parsedSchemas.find((item) => item["@type"] === "Article");
     if (!article?.image || typeof article.image !== "string") fail("Knowledge Centre Article schema is missing a representative image URL: " + rel);
     else {
