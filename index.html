@@ -138,6 +138,14 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 /* Official NGP logo: retain its natural aspect ratio in homepage header and footer. */
 .brand img{display:block;width:auto!important;height:52px!important;max-width:56px!important;object-fit:contain!important;object-position:center!important;flex:0 0 auto}
 @media(max-width:600px){.brand img{height:44px!important;max-width:48px!important}}
+
+/* NGP logo aspect-ratio correction: the source artwork is 598x578 (not square). */
+img[alt*="logo" i]{height:auto!important;object-fit:contain!important;object-position:center!important}
+.brand img{display:block!important;width:52px!important;height:50.26px!important;max-width:52px!important;flex:0 0 52px!important}
+.hero-logo img{width:min(300px,65%)!important;height:auto!important;max-width:100%!important}
+.ngp-app-mark{width:82px!important;height:auto!important;max-width:100%!important}
+@media(max-width:600px){.brand img{width:44px!important;height:42.54px!important;max-width:44px!important;flex-basis:44px!important}}
+
 </style>
 <!-- Google Analytics -->
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}var ngpConsent='essential';try{ngpConsent=localStorage.getItem('ngp-consent')||'essential'}catch(e){}var ngpConsentGranted=ngpConsent==='accepted';gtag('consent','default',{analytics_storage:ngpConsentGranted?'granted':'denied',ad_storage:ngpConsentGranted?'granted':'denied',ad_user_data:ngpConsentGranted?'granted':'denied',ad_personalization:ngpConsentGranted?'granted':'denied',wait_for_update:500});gtag('js',new Date());</script>
