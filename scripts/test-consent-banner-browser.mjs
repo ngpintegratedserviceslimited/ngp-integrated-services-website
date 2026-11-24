@@ -116,4 +116,4 @@ try {
   if (browser) await browser.close();
   await new Promise((resolve) => server.close(resolve));
 }
-console.log("PASS consent browser checks: 26 pages at mobile and desktop; fresh visits, visible controls, viewport fit, logo aspect ratios, accept/reject signals and saved-choice persistence on all pages with independent dynamic implementations.");
+console.log("PASS consent browser checks: 27 pages at mobile and desktop; fresh visits, visible controls, viewport fit, logo aspect ratios, accept/reject signals and saved-choice persistence on all pages with independent dynamic implementations.");
