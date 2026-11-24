@@ -6,6 +6,18 @@ export default {
     // This Worker is the production entry point, so keep this here as well as
     // in Pages middleware to ensure redirects run for every request.
     const hostname = url.hostname.toLowerCase();
+    if (hostname === "api.ngpintegratedservices.com") {
+      if (request.method === "GET" || request.method === "HEAD") {
+        return Response.redirect("https://ngpintegratedservices.com/", 301);
+      }
+      return new Response("No API service is configured on this hostname.", {
+        status: 404,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Cache-Control": "no-store"
+        }
+      });
+    }
     if (hostname === "www.ngpintegratedservices.com" || url.protocol !== "https:") {
       url.protocol = "https:";
       if (hostname === "www.ngpintegratedservices.com") url.hostname = "ngpintegratedservices.com";
