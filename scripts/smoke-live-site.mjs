@@ -119,6 +119,8 @@ for (const file of ["/robots.txt", "/ads.txt", "/sitemap.xml"]) {
       if (!/\bwidth=["']\d+["']/i.test(imageTag) || !/\bheight=["']\d+["']/i.test(imageTag)) fail("Production homepage image is missing intrinsic width/height attributes: " + imageTag.slice(0, 180));
     }
     if (!contact.includes("ngp-contact-form") || !contact.includes("ngp-enquiry-events.min.js")) fail("Contact form minified tracking hook is missing.");
+    if (!/form\\b[^>]*id=["\']ngp-contact-form["\'][^>]*action=["\']https:\\/\\/formspree\\.io\\/f\\/mrpqodbn["\'][^>]*method=["\']POST["\']/i.test(contact)) fail("Contact form is not configured to POST to the approved NGP Formspree endpoint.");
+    if (/form\\b[^>]*id=["\']ngp-contact-form["\'][^>]*action=["\']mailto:/i.test(contact)) fail("Contact form still uses a mailto action instead of Formspree.");
   } catch (error) { fail(file + " request failed: " + error.message); }
 }
 
