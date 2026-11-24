@@ -1,1 +1,1 @@
-NGP production sync marker. This file contains no site functionality and exists only to trigger the configured Cloudflare Pages deployment.
+NGP production sync marker refreshed 2026-11-24 after the approved homepage branding/consent correction and seven-sector Services update. This file contains no site functionality and exists only to trigger the configured Cloudflare Pages deployment.
