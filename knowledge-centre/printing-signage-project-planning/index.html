@@ -36,7 +36,7 @@ img{max-width:100%;display:block}
 header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:30px}
 .brand{display:flex;align-items:center;gap:12px;font-family:Georgia,serif;font-weight:700;font-size:24px}
-.brand img{width:55px;height:55px;object-fit:contain}
+.brand img{width:55px;height:auto;max-height:55px;object-fit:contain;flex:0 0 auto}
 .brand b{color:#111} .brand strong{color:var(--red)}
 nav{display:flex;align-items:center;gap:28px;font-weight:700;color:#3e4352}
 nav a:hover{color:var(--blue)}
@@ -102,7 +102,7 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
  .cta-grid{flex-direction:column;align-items:flex-start} .foot-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:600px){
- .brand{font-size:18px} .brand img{width:45px;height:45px} .hero-grid{padding:55px 0} h1{letter-spacing:-1.8px}
+ .brand{font-size:18px} .brand img{width:45px;height:auto;max-height:45px;flex:0 0 auto} .hero-grid{padding:55px 0} h1{letter-spacing:-1.8px}
  .services-grid,.why-grid,.foot-grid{grid-template-columns:1fr} .section{padding:65px 0} .stats-grid{grid-template-columns:1fr 1fr}
  .stat{border-right:1px solid rgba(255,255,255,.13)} .stat:nth-child(2n){border-right:0}
  .hero-art{min-height:270px} .hero-logo img{width:220px}
@@ -113,7 +113,7 @@ footer{background:#0d1223;color:#d8dbea;padding:45px 0 25px} .foot-grid{display:
 #ngp-app{background:linear-gradient(135deg,#f2f5ff,#fff 60%,#edf7ef)}
 .ngp-app-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}
 .ngp-app-panel{padding:34px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
-.ngp-app-mark{width:82px;height:82px;object-fit:contain;border-radius:18px;background:#fff;padding:8px;border:1px solid var(--line);margin-bottom:18px}
+.ngp-app-mark{width:82px;height:auto;max-height:82px;object-fit:contain;border-radius:18px;background:#fff;padding:8px;border:1px solid var(--line);margin-bottom:18px}
 .ngp-app-actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 12px}
 .ngp-app-button{border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:10px;font:inherit;font-weight:800;background:var(--blue);color:#fff}
 .ngp-app-button.secondary{background:#edf0ff;color:var(--blue)}
