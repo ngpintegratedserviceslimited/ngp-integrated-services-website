@@ -13,7 +13,7 @@ const ROOT = process.cwd();
 const ORIGIN = "http://127.0.0.1:4178";
 const EXPECTED_COPY = "Essential technologies keep this website working. With your permission, analytics and advertising technologies may also be used to understand website performance, improve our services and support relevant advertising. You can accept or reject optional technologies at any time. Read our";
 const ROUTES = [
-  "/", "/logistics", "/consultancy", "/ict-digital", "/smart-security",
+  "/", "/contact", "/logistics", "/consultancy", "/ict-digital", "/smart-security",
   "/knowledge-centre", "/facility-cleaning", "/printing-signage",
   "/integrated-projects", "/engineering-infrastructure",
   "/knowledge-centre/vsat-site-readiness", "/knowledge-centre/event-sound-planning",
@@ -25,7 +25,7 @@ const ROUTES = [
   "/privacy-policy", "/terms", "/about", "/services", "/momodu-godspower-oluwaseyi",
 ];
 const VIEWPORTS = [{ name: "mobile", width: 390, height: 844 }, { name: "desktop", width: 1440, height: 900 }];
-const FULL_CHOICE_TESTS = new Set(["/", "/privacy-policy", "/terms", "/about", "/services", "/momodu-godspower-oluwaseyi"]);
+const FULL_CHOICE_TESTS = new Set(["/", "/contact", "/privacy-policy", "/terms", "/about", "/services", "/momodu-godspower-oluwaseyi"]);
 
 function resolveFile(urlPath) {
   const clean = decodeURIComponent(urlPath.split("?")[0].split("#")[0]);
@@ -116,4 +116,4 @@ try {
   if (browser) await browser.close();
   await new Promise((resolve) => server.close(resolve));
 }
-console.log("PASS consent browser checks: 26 pages at mobile and desktop; fresh visits, visible controls, viewport fit, logo aspect ratios, accept/reject signals and saved-choice persistence on all pages with independent dynamic implementations.");
+console.log("PASS consent browser checks: 27 pages at mobile and desktop; fresh visits, visible controls, viewport fit, logo aspect ratios, accept/reject signals and saved-choice persistence on all pages with independent dynamic implementations.");
