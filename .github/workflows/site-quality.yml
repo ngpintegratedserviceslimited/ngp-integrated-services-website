@@ -28,6 +28,12 @@ jobs:
           node-version: 22
       - name: Run NGP static-site quality gate
         run: node scripts/audit-site.mjs
+      - name: Install Chromium for responsive consent tests
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install --with-deps chromium
+      - name: Test consent banner on mobile and desktop browsers
+        run: node scripts/test-consent-banner-browser.mjs
       - name: Verify readable and minified enquiry tracking behave identically
         run: node scripts/test-enquiry-events.mjs
       - name: Inventory referenced media assets

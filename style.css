@@ -31,3 +31,7 @@
 
 /* NGP photo presentation: preserve complete original photographs instead of cropping important details. */
 .ngp-media-card img, figure.card img, .about-box img { object-fit: contain !important; object-position: center center; background: #f5f7fb; }
+
+
+/* Keep the official NGP logo at its natural aspect ratio in shared brand links. */
+.brand img{display:block;width:auto;height:auto;max-width:58px;max-height:58px;object-fit:contain;flex:0 0 auto}
