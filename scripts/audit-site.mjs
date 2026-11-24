@@ -96,6 +96,7 @@ if (exists("worker/index.js")) {
   const worker = read("worker/index.js");
   if (!worker.includes('hostname === "www.ngpintegratedservices.com"') || !worker.includes("Response.redirect(url.toString(), 301)")) fail("Production Worker is missing the apex-host permanent redirect.");
   if (!worker.includes('url.protocol !== "https:"')) fail("Production Worker is missing the HTTPS canonical redirect.");
+  if (!worker.includes('hostname === "api.ngpintegratedservices.com"') || !worker.includes('No API service is configured on this hostname.')) fail("Production Worker is missing the safe API-host redirect/404 handling.");
 }
 if (exists("functions/_middleware.js")) {
   const middleware = read("functions/_middleware.js");
