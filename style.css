@@ -31,3 +31,9 @@
 
 /* NGP photo presentation: preserve complete original photographs instead of cropping important details. */
 .ngp-media-card img, figure.card img, .about-box img { object-fit: contain !important; object-position: center center; background: #f5f7fb; }
+
+
+/* Official NGP logo: preserve the source artwork's natural proportions in every shared header/footer. */
+.brand img{display:block;width:auto!important;height:52px!important;max-width:56px!important;object-fit:contain!important;object-position:center!important;flex:0 0 auto}
+.brand:not(:has(img))::before{width:52px;height:52px;flex:0 0 52px;background-image:url('/assets/img/logo.png');background-size:contain;background-repeat:no-repeat;background-position:center}
+@media(max-width:600px){.brand img{height:44px!important;max-width:48px!important}.brand:not(:has(img))::before{width:44px;height:44px;flex-basis:44px}}
