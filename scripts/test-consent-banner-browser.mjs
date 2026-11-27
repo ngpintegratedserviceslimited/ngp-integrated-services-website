@@ -22,10 +22,10 @@ const ROUTES = [
   "/knowledge-centre/automated-gate-selection", "/knowledge-centre/cctv-planning-maintenance",
   "/knowledge-centre/ict-maintenance-checklist", "/knowledge-centre/transport-planning-checklist",
   "/knowledge-centre/printing-signage-project-planning",
-  "/privacy-policy", "/terms", "/about", "/services", "/momodu-godspower-oluwaseyi",
+  "/privacy-policy", "/terms", "/about", "/services", "/momodu-godspower-oluwaseyi", "/partnership",
 ];
 const VIEWPORTS = [{ name: "mobile", width: 390, height: 844 }, { name: "desktop", width: 1440, height: 900 }];
-const FULL_CHOICE_TESTS = new Set(["/", "/contact", "/privacy-policy", "/terms", "/about", "/services", "/momodu-godspower-oluwaseyi"]);
+const FULL_CHOICE_TESTS = new Set(["/", "/contact", "/privacy-policy", "/terms", "/about", "/services", "/momodu-godspower-oluwaseyi", "/partnership"]);
 
 function resolveFile(urlPath) {
   const clean = decodeURIComponent(urlPath.split("?")[0].split("#")[0]);
@@ -116,4 +116,4 @@ try {
   if (browser) await browser.close();
   await new Promise((resolve) => server.close(resolve));
 }
-console.log("PASS consent browser checks: 27 pages at mobile and desktop; fresh visits, visible controls, viewport fit, logo aspect ratios, accept/reject signals and saved-choice persistence on all pages with independent dynamic implementations.");
+console.log("PASS consent browser checks: 28 pages at mobile and desktop; fresh visits, visible controls, viewport fit, logo aspect ratios, accept/reject signals and saved-choice persistence on all pages with independent dynamic implementations.");
