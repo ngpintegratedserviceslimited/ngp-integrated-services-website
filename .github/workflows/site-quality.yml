@@ -34,6 +34,8 @@ jobs:
           npx playwright install chromium
       - name: Test consent banner on mobile and desktop browsers
         run: node scripts/test-consent-banner-browser.mjs
+      - name: Test homepage layout at mobile, tablet and desktop widths
+        run: node scripts/test-mobile-homepage-browser.mjs
       - name: Verify readable and minified enquiry tracking behave identically
         run: node scripts/test-enquiry-events.mjs
       - name: Inventory referenced media assets
