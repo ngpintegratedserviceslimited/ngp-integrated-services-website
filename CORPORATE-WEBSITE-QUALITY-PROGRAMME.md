@@ -17,8 +17,8 @@ The website is a corporate trust, service-discovery and enquiry platform. A succ
 
 ## Findings requiring action
 
-### P0 — Legacy media dependency
-`functions/media/[[path]].js` fetches requested images from `ngpintegratedservices.infy.uk`. This creates a dependency on the former host and can leave images unavailable or slow if that host changes. Do not delete the proxy until the complete source asset inventory is copied to durable production-managed storage and all references are verified.
+### P0 — Media delivery and asset verification
+The current `functions/media/[[path]].js` no longer proxies requests to `ngpintegratedservices.infy.uk`. It restricts requests to approved media path prefixes and serves only files packaged with the Cloudflare Pages deployment through `context.env.ASSETS.fetch`; missing files return a genuine 404. The repository's `MEDIA-ASSET-MIGRATION-INVENTORY.md` records recovered image/video files and notes that `sol2.jpg` and `signvid.mp4` were intentionally retired because no active page references remain. This removes the old-host runtime dependency in the current source, but does not prove production is serving the same code or that every referenced asset loads. Verify every active media URL against a successful Cloudflare preview and the deployed production SHA before closing this finding.
 
 ### P0 — Runtime and deployment verification
 The repository is not proof of what Cloudflare currently serves. The live domain, Pages deployment, redirects, headers, media responses, and root `ads.txt`/sitemap responses must be checked against a known deployment SHA. A browser-level smoke test is still required.

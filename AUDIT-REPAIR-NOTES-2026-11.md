@@ -21,9 +21,9 @@ This branch contains a controlled content and consent-clarity repair based on a 
 
 ## Deliberately not changed
 
-### Legacy media proxy
+### Media migration status
 
-`functions/media/[[path]].js` still retrieves legacy image/video assets from the former InfinityFree host. Removing this dependency without first staging and verifying all referenced assets would cause broken images and videos. The asset migration is therefore a release blocker, not something to conceal with a speculative code change.
+The current `main` branch no longer retrieves media from the former InfinityFree host. `functions/media/[[path]].js` serves only packaged Pages assets and returns a genuine 404 for a missing file. The maintained `MEDIA-ASSET-MIGRATION-INVENTORY.md` lists recovered assets and records that `sol2.jpg` and `signvid.mp4` were intentionally retired after confirming there are no active page references. Remaining work is runtime verification: test all active image/video URLs on a Cloudflare preview and confirm production is running the same verified commit. Do not restore the retired host as a fallback.
 
 ### Consent certification
 
